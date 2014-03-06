@@ -17,7 +17,7 @@ public class PathSearch {
 	private boolean checkPath(ArrayList<BFSNode> path) {
 		// check last element in path
 		if(path.get(path.size()-1).getName() == 4) { //FIXME
-			return false;
+			return true;//FIXMEfalse;
 		} 
 		return true;
 	}

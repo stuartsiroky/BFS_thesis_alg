@@ -42,7 +42,7 @@ public class Example {
 		Bgraph.addEdge(g, y);
 		
 		Bgraph.addEdge(y, z);
-		Bgraph.addEdge(h, j);
+		//Bgraph.addEdge(h, j);
 		Bgraph.addEdge(g, j);
 //FIXME		Bgraph.addEdge(j, h);
 
@@ -65,8 +65,8 @@ public class Example {
 		//Bgraph.BFSearchRev(f);
 		//Bgraph.BFSearchStart(a);
 		BFSGraph reducedGraph;
-//		reducedGraph = Bgraph.getPaths(a, z);
-		reducedGraph = Bgraph.getPaths(g, z);
+		reducedGraph = Bgraph.getPaths(a, z);
+//		reducedGraph = Bgraph.getPaths(g, z);
 		if(reducedGraph != null) {
 			System.out.println(reducedGraph.toString()+"\n\n");
 		}
@@ -77,7 +77,7 @@ public class Example {
 	System.out.println("\n\n");
 		PathSearch ps = new PathSearch(reducedGraph);
 		//if(ps.seachCheckPath(a)) {
-		if(ps.seachCheckPath(g)) {
+		if(ps.seachCheckPath(a)) {
 			System.out.println("STUART success");
 		}
 		else {
