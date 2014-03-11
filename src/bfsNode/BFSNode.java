@@ -16,6 +16,7 @@ public class BFSNode extends Node {
 	private ArrayList<BFSNode> predecessor; 
 	private ArrayList<BFSNode> next; 
 	public int weight;
+	private boolean condition = false; //FIXME needs to be more general
 	
 	public BFSNode(String name) {
 		super(nodeCnt);
@@ -30,7 +31,7 @@ public class BFSNode extends Node {
 
 	public String toString() {
 		String s = "( "+name;
-		s += " "+getName();
+		s += " | ("+getName()+")";
 		//s += " Color "+color;
 //		s += " Dist "+distance;
 //		if(!predecessor.isEmpty()) {
@@ -47,7 +48,7 @@ public class BFSNode extends Node {
 //			}
 //			s += "} ";
 //			}
-		s += ")";
+		s += " )";
 		return s;	
 	}
 
@@ -109,6 +110,18 @@ public class BFSNode extends Node {
 
 	public void clearNext() {
 		next.clear();
+	}
+
+	public boolean condition() {
+		return getCondition();
+	}
+
+	public boolean getCondition() {
+		return condition;
+	}
+
+	public void setCondition(boolean condition) {
+		this.condition = condition;
 	}
 	
 }

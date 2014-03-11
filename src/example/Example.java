@@ -1,13 +1,17 @@
 package example;
 
-import java.util.ArrayList;
-
 import graph.*;
 import bfsNode.*;
 
 public class Example {
 
 	public static void main(String[] s) {
+		
+		graphTest1();
+	//	graphTest2();
+	}
+
+	private static void graphTest1() {
 		BFSGraph Bgraph = new BFSGraph();
 
 		BFSNode a = Bgraph.createNode("a");
@@ -37,9 +41,9 @@ public class Example {
 		Bgraph.addEdge(c, d); 
 		Bgraph.addEdge(d, y); 
 		
-		Bgraph.addEdge(b, h);
-		Bgraph.addEdge(h, g);
-		Bgraph.addEdge(g, y);
+		Bgraph.addEdge(b, g);
+		Bgraph.addEdge(g, h);
+		Bgraph.addEdge(h, y);
 		
 		Bgraph.addEdge(y, z);
 		//Bgraph.addEdge(h, j);
@@ -83,6 +87,48 @@ public class Example {
 		else {
 			System.out.println("STUART failure");
 		}
-		
 	}
+	
+	private static void graphTest2() {
+		BFSGraph Bgraph = new BFSGraph();
+
+		BFSNode m0 = Bgraph.createNode("main::true");
+		BFSNode m1 = Bgraph.createNode("main::(i>1)");
+		BFSNode m2 = Bgraph.createNode("main::!(i>1)");
+		BFSNode f0 = Bgraph.createNode("foo::true");
+		BFSNode f1 = Bgraph.createNode("foo::(i>2)");
+		BFSNode b0 = Bgraph.createNode("bar::true");
+		BFSNode b1 = Bgraph.createNode("bar::(i>1)");
+		BFSNode fb = Bgraph.createNode("foobar::true");
+
+		Bgraph.addEdge(m0, m1);	
+		Bgraph.addEdge(m0, m2); 
+		Bgraph.addEdge(f0, f1); 
+		Bgraph.addEdge(b0, b1); 
+		Bgraph.addEdge(b0, fb);
+		
+		Bgraph.addEdge(m1, f0);
+		Bgraph.addEdge(m2, b0);
+		Bgraph.addEdge(b1, f0);
+		Bgraph.addEdge(f1, fb);
+
+		//System.out.println(Bgraph.toString());
+		
+		BFSGraph reducedGraph;
+		reducedGraph = Bgraph.getPaths(m0, fb);
+		if(reducedGraph != null) {
+			System.out.println(reducedGraph.toString()+"\n\n");
+		}
+
+		System.out.println("\n\n");
+		PathSearch ps = new PathSearch(reducedGraph);
+		if(ps.seachCheckPath(m0)) {
+			System.out.println("STUART success");
+		}
+		else {
+			System.out.println("STUART failure");
+		}
+	}	
+	
+	
 }
