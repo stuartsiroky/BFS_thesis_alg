@@ -8,7 +8,7 @@ public class Example {
 	public static void main(String[] s) {
 		
 		graphTest1();
-	//	graphTest2();
+		graphTest2();
 	}
 
 	private static void graphTest1() {
@@ -68,7 +68,7 @@ public class Example {
 		//Bgraph.BFSearch(a);
 		//Bgraph.BFSearchRev(f);
 		//Bgraph.BFSearchStart(a);
-		BFSGraph reducedGraph;
+/*		BFSGraph reducedGraph;
 		reducedGraph = Bgraph.getPaths(a, z);
 //		reducedGraph = Bgraph.getPaths(g, z);
 		if(reducedGraph != null) {
@@ -86,7 +86,7 @@ public class Example {
 		}
 		else {
 			System.out.println("STUART failure");
-		}
+		}*/
 	}
 	
 	private static void graphTest2() {
@@ -116,18 +116,25 @@ public class Example {
 		
 		BFSGraph reducedGraph;
 		reducedGraph = Bgraph.getPaths(m0, fb);
+		//reducedGraph = Bgraph.getPaths(m2, fb);
 		if(reducedGraph != null) {
 			System.out.println(reducedGraph.toString()+"\n\n");
 		}
 
 		System.out.println("\n\n");
 		PathSearch ps = new PathSearch(reducedGraph);
-		if(ps.seachCheckPath(m0)) {
-			System.out.println("STUART success");
-		}
-		else {
-			System.out.println("STUART failure");
-		}
+
+//		ps.printPred();
+//		ps.PrintNxt();
+//		if(ps.seachCheckPath(m0)) {
+//			System.out.println("STUART success");
+//		}
+//		else {
+//			System.out.println("STUART failure");
+//		}
+		
+		ps.DSE(fb,m0);
+		//ps.DSE(fb,m2);		
 	}	
 	
 	
