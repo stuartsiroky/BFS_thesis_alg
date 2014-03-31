@@ -1,14 +1,26 @@
 package example;
 
+//import java.util.Map;
 import graph.*;
 import bfsNode.*;
 
-public class Example {
+//import org.eclipse.jdt.core.dom.*;
 
+public class Example {
+	static long startTime;
+	static long stopTime;
+	
 	public static void main(String[] s) {
-		
+		System.out.println("===========================");
+		System.out.println("====== graphTest1 =========");
+		System.out.println("===========================");
 		graphTest1();
+		System.out.println("\n\n");
+		System.out.println("===========================");
+		System.out.println("====== graphTest2 =========");
+		System.out.println("===========================");
 		graphTest2();
+		astParserTest();
 	}
 
 	private static void graphTest1() {
@@ -68,9 +80,12 @@ public class Example {
 		//Bgraph.BFSearch(a);
 		//Bgraph.BFSearchRev(f);
 		//Bgraph.BFSearchStart(a);
-/*		BFSGraph reducedGraph;
+		BFSGraph reducedGraph;
+		startTime = System.currentTimeMillis();
 		reducedGraph = Bgraph.getPaths(a, z);
 //		reducedGraph = Bgraph.getPaths(g, z);
+		stopTime = System.currentTimeMillis();
+		System.out.println("Time to reduce graph "+(stopTime-startTime));
 		if(reducedGraph != null) {
 			System.out.println(reducedGraph.toString()+"\n\n");
 		}
@@ -81,26 +96,39 @@ public class Example {
 	System.out.println("\n\n");
 		PathSearch ps = new PathSearch(reducedGraph);
 		//if(ps.seachCheckPath(a)) {
+		startTime = System.currentTimeMillis();
 		if(ps.seachCheckPath(a)) {
 			System.out.println("STUART success");
 		}
 		else {
 			System.out.println("STUART failure");
-		}*/
+		}
+		stopTime = System.currentTimeMillis();
+		System.out.println("Time to reduce graph "+(stopTime-startTime));
+		
 	}
 	
 	private static void graphTest2() {
 		BFSGraph Bgraph = new BFSGraph();
 
-		BFSNode m0 = Bgraph.createNode("main::true");
-		BFSNode m1 = Bgraph.createNode("main::(i>1)");
-		BFSNode m2 = Bgraph.createNode("main::!(i>1)");
-		BFSNode f0 = Bgraph.createNode("foo::true");
-		BFSNode f1 = Bgraph.createNode("foo::(i>2)");
-		BFSNode b0 = Bgraph.createNode("bar::true");
-		BFSNode b1 = Bgraph.createNode("bar::(i>1)");
-		BFSNode fb = Bgraph.createNode("foobar::true");
+		FunctionNode  m0 = new FunctionNode("main");
+		ConditionNode m1 = new ConditionNode("main","(i>1)");
+		ConditionNode m2 = new ConditionNode("main","!(i>1)");
+		FunctionNode  f0 = new FunctionNode("foo");
+		ConditionNode f1 = new ConditionNode("foo","(i>2)");
+		FunctionNode  b0 = new FunctionNode("bar");
+		ConditionNode b1 = new ConditionNode("bar","(i>1)");
+		FunctionNode  fb = new FunctionNode("foobar");
 
+		Bgraph.addNode(m0);
+		Bgraph.addNode(m1);
+		Bgraph.addNode(m2);
+		Bgraph.addNode(f0);
+		Bgraph.addNode(f1);
+		Bgraph.addNode(b0);
+		Bgraph.addNode(b1);
+		Bgraph.addNode(fb);
+		
 		Bgraph.addEdge(m0, m1);	
 		Bgraph.addEdge(m0, m2); 
 		Bgraph.addEdge(f0, f1); 
@@ -115,8 +143,11 @@ public class Example {
 		//System.out.println(Bgraph.toString());
 		
 		BFSGraph reducedGraph;
+		startTime = System.currentTimeMillis();
 		reducedGraph = Bgraph.getPaths(m0, fb);
 		//reducedGraph = Bgraph.getPaths(m2, fb);
+		stopTime = System.currentTimeMillis();	
+		System.out.println("Time to reduce graph "+(stopTime-startTime));
 		if(reducedGraph != null) {
 			System.out.println(reducedGraph.toString()+"\n\n");
 		}
@@ -126,16 +157,32 @@ public class Example {
 
 //		ps.printPred();
 //		ps.PrintNxt();
-//		if(ps.seachCheckPath(m0)) {
-//			System.out.println("STUART success");
-//		}
-//		else {
-//			System.out.println("STUART failure");
-//		}
-		
+		System.out.println("\n===Recursivly find all paths going forward");
+		startTime = System.currentTimeMillis();
+		if(ps.seachCheckPath(m0)) {
+			System.out.println("STUART success");
+		}
+		else {
+			System.out.println("STUART failure");
+		}
+		stopTime = System.currentTimeMillis();
+		System.out.println("Time to seachCheckPath "+(stopTime-startTime));
+		System.out.println("\n===BFS backwards to find all paths");
+		startTime = System.currentTimeMillis();
 		ps.DSE(fb,m0);
 		//ps.DSE(fb,m2);		
-	}	
+		stopTime = System.currentTimeMillis();
+		System.out.println("Time to DSE "+(stopTime-startTime));
+		}	
 	
-	
+	private static void astParserTest() {
+//		char[] source = {'i','>','5'};
+//		 ASTParser parser = ASTParser.newParser(AST.JLS3);  // handles JDK 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
+//		 parser.setSource(source);
+//		 // In order to parse 1.5 code, some compiler options need to be set to 1.5
+//		 Map options = JavaCore.getOptions();
+//		 JavaCore.setComplianceOptions(JavaCore.VERSION_1_5, options);
+//		 parser.setCompilerOptions(options);
+//		 CompilationUnit result = (CompilationUnit) parser.createAST(null);		 
+	}
 }

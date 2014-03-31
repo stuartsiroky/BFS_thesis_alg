@@ -42,6 +42,12 @@ public class BFSGraph {
 		}
 	}
 
+	public void addNode(BFSNode n) {
+		if (!nodeList.contains(n)) {
+			nodeList.add(n);
+		} 
+	}
+
 	public BFSNode createNode(String name) {
 		BFSNode n = new BFSNode(name);
 		if (!nodeList.contains(n)) {
@@ -176,6 +182,7 @@ public class BFSGraph {
 	
 	public void BFSearchRev(BFSNode finalNode) {
 		Queue<BFSNode> q = new LinkedList<BFSNode>();
+		System.out.println("Number of node in starting graph "+nodeList.size());
 		int cnt=0;
 		initSearch(finalNode);
 		q.add(finalNode);
@@ -237,7 +244,7 @@ public class BFSGraph {
 		return trace;
 	}
 
-	private void clearColorDist(BFSNode startNode) {
+	public void clearColorDist(BFSNode startNode) {
 		for (BFSNode n : nodeList) {
 			n.setColor(COLOR.WHITE);
 			n.setDistance(-1);
@@ -258,6 +265,9 @@ public class BFSGraph {
 	}
 		
 	
+	public int size() { 
+		return nodeList.size();
+	}
 	
 	
 	
