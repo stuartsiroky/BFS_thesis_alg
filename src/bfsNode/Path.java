@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Path {
 	private ArrayList<BFSNode> path = new ArrayList<BFSNode> ();
 	private String condition;
+	private int pindex = 0;
 	
 	public Path() {
 		path.clear();
@@ -73,4 +74,25 @@ public class Path {
 		return true;
 	}
 	
+	public ArrayList<BFSNode> ReversedPath() {
+		ArrayList<BFSNode> rpath = new ArrayList<BFSNode>();
+		for(int i=path.size()-1;i>=0;i--) {
+			rpath.add(path.get(i));
+		}
+		return rpath;
+	}
+
+	public BFSNode getNxtPathNode() {
+		if(!isEmpty() && (path.size()<pindex)) {
+			return path.get(pindex);
+		} 
+		else {
+			return null;
+		}
+	}
+	
+	public BFSNode getFirstPathNode() {
+		pindex = 0;
+		return getNxtPathNode();
+	}
 }

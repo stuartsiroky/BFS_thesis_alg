@@ -34,23 +34,21 @@ public class BFSGraph {
 	}
 	
 	public boolean contains(BFSNode node) {
-		if(nodeList.contains(node)) { 
-			return true;
+		for(BFSNode n:nodeList) {
+			if(node.equals(n)) return true;
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 
 	public void addNode(BFSNode n) {
-		if (!nodeList.contains(n)) {
+		if (!contains(n)) {
 			nodeList.add(n);
 		} 
 	}
 
 	public BFSNode createNode(String name) {
 		BFSNode n = new BFSNode(name);
-		if (!nodeList.contains(n)) {
+		if(!contains(n)) {
 			nodeList.add(n);
 			return n;
 		} else {

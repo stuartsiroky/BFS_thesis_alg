@@ -1,6 +1,9 @@
 package example;
 
 //import java.util.Map;
+import java.io.IOException;
+
+import jimpleParser.JimpleParser;
 import graph.*;
 import bfsNode.*;
 
@@ -20,7 +23,16 @@ public class Example {
 		System.out.println("====== graphTest2 =========");
 		System.out.println("===========================");
 		graphTest2();
-		astParserTest();
+		System.out.println("===========================");
+		System.out.println("====== graphTest3 =========");
+		System.out.println("===========================");	
+		JimpleParser JP = new JimpleParser();
+		try {
+			JP.ReadJimple("C:\\Users\\ssiroky\\workspace\\BFS\\sootOutput\\codeExamples.DD.jimple");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private static void graphTest1() {
@@ -128,7 +140,7 @@ public class Example {
 		Bgraph.addNode(b0);
 		Bgraph.addNode(b1);
 		Bgraph.addNode(fb);
-		
+		System.out.println(Bgraph.toString());
 		Bgraph.addEdge(m0, m1);	
 		Bgraph.addEdge(m0, m2); 
 		Bgraph.addEdge(f0, f1); 
@@ -173,16 +185,8 @@ public class Example {
 		//ps.DSE(fb,m2);		
 		stopTime = System.currentTimeMillis();
 		System.out.println("Time to DSE "+(stopTime-startTime));
+		ps.createF2FPath();
+		//ps.printF2FPath();
 		}	
 	
-	private static void astParserTest() {
-//		char[] source = {'i','>','5'};
-//		 ASTParser parser = ASTParser.newParser(AST.JLS3);  // handles JDK 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
-//		 parser.setSource(source);
-//		 // In order to parse 1.5 code, some compiler options need to be set to 1.5
-//		 Map options = JavaCore.getOptions();
-//		 JavaCore.setComplianceOptions(JavaCore.VERSION_1_5, options);
-//		 parser.setCompilerOptions(options);
-//		 CompilationUnit result = (CompilationUnit) parser.createAST(null);		 
-	}
 }

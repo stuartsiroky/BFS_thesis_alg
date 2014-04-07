@@ -57,7 +57,7 @@ public class BFSNode extends Node {
 	}
 	
 	public boolean equals(BFSNode n) {
-		return (getName() == n.getName());
+		return name.equals(n.name);
 	}
 
 	public COLOR getColor() {

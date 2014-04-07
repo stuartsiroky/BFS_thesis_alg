@@ -2,8 +2,10 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import data_obj.*;
 import bfsNode.*;
@@ -16,7 +18,7 @@ public class PathSearch {
 	private BFSNode endFunction;
 	private Map<BFSNode, ArrayList<Path>> pathMap = new HashMap<BFSNode, ArrayList<Path>>();
 	private Map<Edge, ArrayList<Path>> fpathMap = new HashMap<Edge, ArrayList<Path>>();
-	
+
 	public PathSearch(BFSGraph b) {
 		graph = b;
 		nodesVisited = 0;
@@ -55,14 +57,14 @@ public class PathSearch {
 	}
 
 	private boolean checkPath(ArrayList<BFSNode> path) {
-//FIXME		int curr_prop = -1;
-//FIXME			for (BFSNode n : path) {
-//FIXME				if (n.getName() > curr_prop) {
-//FIXME					curr_prop = n.getName();
-//FIXME				} else {
-//FIXME					return false;
-//FIXME				}
-//FIXME			}
+		// FIXME int curr_prop = -1;
+		// FIXME for (BFSNode n : path) {
+		// FIXME if (n.getName() > curr_prop) {
+		// FIXME curr_prop = n.getName();
+		// FIXME } else {
+		// FIXME return false;
+		// FIXME }
+		// FIXME }
 		return true;
 	}
 
@@ -96,7 +98,8 @@ public class PathSearch {
 	}
 
 	public boolean seachCheckPath(BFSNode startNode) {
-		System.out.println("seachCheckPath number of nodes in graph "+graph.size());
+		System.out.println("seachCheckPath number of nodes in graph "
+				+ graph.size());
 		ArrayList<BFSNode> list = new ArrayList<BFSNode>();
 		// add the first element
 		if (graph.contains(startNode)) {
@@ -129,20 +132,20 @@ public class PathSearch {
 	// ///////////////////////////////////////////////////////
 
 	public void DSE(BFSNode finalNode, BFSNode startNode) {
-		System.out.println("DSE number of nodes in graph "+graph.size());
+		System.out.println("DSE number of nodes in graph " + graph.size());
 		workList.clear();
 		dseNodeCnt = 0;
 		if (graph.contains(finalNode) && graph.contains(startNode)) {
 			prevSearch(startNode);
 			// printPred();
-			//FIXME graph.clearColorDist(startNode);
+			// FIXME graph.clearColorDist(startNode);
 			endFunction = finalNode;
 			addCallersWorklist(finalNode);
 			while (!isWorklistEmpty()) {
 				BFSNode n = workList.remove(0);
-				//FIXME n.setColor(COLOR.GRAY);
+				// FIXME n.setColor(COLOR.GRAY);
 				manageTargets(n);
-				//FIXME n.setColor(COLOR.BLACK);
+				// FIXME n.setColor(COLOR.BLACK);
 			}
 			System.out.println("STUART DSE nodes Visited = " + dseNodeCnt);
 			System.out.println("Feasible Paths from " + startNode.toString()
@@ -159,7 +162,8 @@ public class PathSearch {
 		if (pathMap.containsKey(n)) {
 			ArrayList<Path> paths = pathMap.get(n);
 			for (Path p : paths) {
-				System.out.println(p.toString()+"\n\tPath Condition:: "+p.getCondition());
+				System.out.println(p.toString() + "\n\tPath Condition:: "
+						+ p.getCondition());
 			}
 		}
 	}
@@ -230,10 +234,6 @@ public class PathSearch {
 		return pathMap.containsKey(n);
 	}
 
-	// private boolean callToFunc() {
-	// return false;
-	// }
-
 	private void manageTargets(BFSNode n) {
 		List<BFSNode> fromList = getPaths(n);
 		dseNodeCnt++;
@@ -246,7 +246,8 @@ public class PathSearch {
 				}
 				// else if(end path of n = callTo(f) && hasPath(f))
 				else if (hasPath(n)) {
-					//System.out.println("manageTargets-hasPath " + n.toString());
+					// System.out.println("manageTargets-hasPath " +
+					// n.toString());
 					ArrayList<Path> ppaths = pathMap.get(n);
 					for (Path p : ppaths) {
 						if (pathFeasible(v, p)) {
@@ -264,21 +265,77 @@ public class PathSearch {
 	}
 
 	private void addCallersWorklist(BFSNode n) {
-		//FIXME if(n.getColor() == COLOR.WHITE) {
-			workList.add(n);
-		//FIXME }
+		// FIXME if(n.getColor() == COLOR.WHITE) {
+		workList.add(n);
+		// FIXME }
 	}
 
 	private boolean isWorklistEmpty() {
 		return workList.isEmpty();
 	}
+
+	public void createF2FPath() {
+		Set<BFSNode> pkeys = pathMap.keySet();
+
+		for (Iterator<BFSNode> iterator = pkeys.iterator(); iterator.hasNext();) {
+			BFSNode n = iterator.next();
+			if (n instanceof FunctionNode) {
+				ArrayList<Path> paths = pathMap.get(n);
+				for (Path p : paths) {
+					ArrayList<BFSNode> rp = p.ReversedPath();
+					Path np = new Path();
+					BFSNode tmpnode = null;
+					BFSNode first = null;
+					BFSNode last = null;
+					if (!rp.isEmpty()) {
+						tmpnode = rp.remove(0);
+						first = tmpnode;
+					}
+					boolean isFunction = false;
+
+					while (!rp.isEmpty() && !isFunction) {
+						np.addPath(tmpnode);
+						tmpnode = rp.remove(0);
+						last = tmpnode;
+						isFunction = (tmpnode instanceof FunctionNode);
+					}
+					if (!np.isEmpty()) {
+						Edge e = new Edge(first, last, 1);
+						np.addPath(last);
+						add2FPath(e, np);
+					}
+				} //for (Path p : paths) 
+			} //if (n instanceof FunctionNode)
+		} //for (Iterator<BFSNode> iterator = pkeys.iterator
+	}
+
+	private void add2FPath(Edge key, Path p) {
+		// private Map<Edge, ArrayList<Path>> fpathMap = new HashMap<Edge,
+		// ArrayList<Path>>();
+		ArrayList<Path> alp;
+		if (fpathMap.containsKey(key)) {
+			// get array list of paths and add the path to it
+			alp = fpathMap.get(key);
+		} else {
+			// create and array list of paths and add the element to the hash
+			// map
+			alp = new ArrayList<Path>();
+		}
+		alp.add(p);
+		fpathMap.put(key, alp);
+	}
+
+	public void printF2FPath() {
+		System.out.println(fpathMap.toString()); // TODO Auto-generated method
+													// stub
+
+	}
 }
 
-
 // ///////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////
-// // Directed symbolic execution algorithm take 2    ////
+// // Directed symbolic execution algorithm take 2 ////
 // ///////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////
