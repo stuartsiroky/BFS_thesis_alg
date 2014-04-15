@@ -252,7 +252,9 @@ public class BFSGraph {
 	}
 
 	public BFSGraph getPaths(BFSNode startNode, BFSNode finalNode) {
+		System.out.println("getPaths Starting Graph\n"+toString());
 		BFSearchRev(finalNode);
+		
 		if(pathRevExists(finalNode,startNode)){
 			return new BFSGraph(BFSearchStart(startNode),adjList);
 		}

@@ -9,12 +9,12 @@ import java.util.Set;
 
 import data_obj.*;
 import bfsNode.*;
+import bfsNode.BFSNode.COLOR;
 
 public class PathSearch {
 	private BFSGraph graph;
 	int nodesVisited, dseNodeCnt;
 	private ArrayList<BFSNode> workList = new ArrayList<BFSNode>();
-	// private BFSNode originFunction;
 	private BFSNode endFunction;
 	private Map<BFSNode, ArrayList<Path>> pathMap = new HashMap<BFSNode, ArrayList<Path>>();
 	private Map<Edge, ArrayList<Path>> fpathMap = new HashMap<Edge, ArrayList<Path>>();
@@ -23,9 +23,7 @@ public class PathSearch {
 		graph = b;
 		nodesVisited = 0;
 		workList.clear();
-		// originFunction = null;
 		endFunction = null;
-		// pathMap.clear();
 	}
 
 	private void prevSearch(BFSNode n) {
@@ -68,7 +66,7 @@ public class PathSearch {
 		return true;
 	}
 
-	private boolean followNxt(ArrayList<BFSNode> path) {
+/*	private boolean followNxt(ArrayList<BFSNode> path) {
 		BFSNode last = path.get(path.size() - 1);
 		List<BFSNode> toList = last.getNext();
 		boolean rtn_val = true;
@@ -117,11 +115,12 @@ public class PathSearch {
 		} // graph contain start
 		else {
 			System.out
-					.println("seachCheckPath nodes visited = " + nodesVisited);
+					.println("seachCheckPath Recursive and Non-Optimal nodes visited = " + nodesVisited);
 			return false;
 		}
 
 	} // searchCheckPath
+*/
 
 	// ///////////////////////////////////////////////////////
 	// ///////////////////////////////////////////////////////
@@ -136,24 +135,22 @@ public class PathSearch {
 		workList.clear();
 		dseNodeCnt = 0;
 		if (graph.contains(finalNode) && graph.contains(startNode)) {
-			prevSearch(startNode);
+			prevSearch(startNode); // do this since we did not do our prev search of the graph can be removed if already searched
 			// printPred();
-			// FIXME graph.clearColorDist(startNode);
+			graph.clearColorDist(startNode);
 			endFunction = finalNode;
 			addCallersWorklist(finalNode);
 			while (!isWorklistEmpty()) {
 				BFSNode n = workList.remove(0);
-				// FIXME n.setColor(COLOR.GRAY);
+				n.setColor(COLOR.GRAY);
 				manageTargets(n);
-				// FIXME n.setColor(COLOR.BLACK);
+				System.out.println("DSE worklist = "+workList.toString());
+				System.out.println("DSE pathMap = "+pathMap.toString());
+				n.setColor(COLOR.BLACK);
 			}
 			System.out.println("STUART DSE nodes Visited = " + dseNodeCnt);
 			System.out.println("Feasible Paths from " + startNode.toString()
 					+ " to " + finalNode.toString());
-			// for (BFSNode n : graph.nodeList) {
-			// System.out.println("sTUART node " + n.toString());
-			// printPaths(n);
-			// }
 			printPaths(startNode);
 		}
 	}
@@ -182,15 +179,15 @@ public class PathSearch {
 
 	private boolean pathFeasible(BFSNode n, Path p) {
 		boolean result = true;
-		ArrayList<BFSNode> pp = p.getPath();
-		for (BFSNode nn : pp) {
-			result &= nn.condition();
-		}
-		result &= n.condition();
+		//FIXME ArrayList<BFSNode> pp = p.getPath();
+		//FIXME for (BFSNode nn : pp) {
+		//FIXME	result &= nn.condition();
+		//FIXME }
+		//FIXME result &= n.condition();
 		// System.out.println("STUART pathFeasible from "+n.toString()+
 		// " = "+result);
-		return true;
-		// FIXME return result;
+		
+		return result;
 	}
 
 	private void updatePaths(BFSNode from, BFSNode to, Path topath) {
@@ -237,11 +234,12 @@ public class PathSearch {
 	private void manageTargets(BFSNode n) {
 		List<BFSNode> fromList = getPaths(n);
 		dseNodeCnt++;
+System.out.println("manage_targets cnt ="+dseNodeCnt+" "+n.toString());
 		if (fromList.size() != 0) {
-			for (BFSNode v : fromList) { // inital paths are the tolist
+			for (BFSNode v : fromList) { // initial paths are the tolist
 				// if(end path of n == endFunction) updatePath()
 				if (n.equals(endFunction)) {
-					System.out.println("createPath " + n.toString());
+					//System.out.println("createPath " + n.toString());
 					createPath(v, n);
 				}
 				// else if(end path of n = callTo(f) && hasPath(f))
@@ -265,9 +263,9 @@ public class PathSearch {
 	}
 
 	private void addCallersWorklist(BFSNode n) {
-		// FIXME if(n.getColor() == COLOR.WHITE) {
-		workList.add(n);
-		// FIXME }
+		if(n.getColor() == COLOR.WHITE) { //FIXME??
+			workList.add(n);
+		}
 	}
 
 	private boolean isWorklistEmpty() {

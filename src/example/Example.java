@@ -108,7 +108,7 @@ public class Example {
 	System.out.println("\n\n");
 		PathSearch ps = new PathSearch(reducedGraph);
 		//if(ps.seachCheckPath(a)) {
-		startTime = System.currentTimeMillis();
+/*		startTime = System.currentTimeMillis();
 		if(ps.seachCheckPath(a)) {
 			System.out.println("STUART success");
 		}
@@ -117,7 +117,7 @@ public class Example {
 		}
 		stopTime = System.currentTimeMillis();
 		System.out.println("Time to reduce graph "+(stopTime-startTime));
-		
+		*/
 	}
 	
 	private static void graphTest2() {
@@ -169,17 +169,17 @@ public class Example {
 
 //		ps.printPred();
 //		ps.PrintNxt();
-		System.out.println("\n===Recursivly find all paths going forward");
-		startTime = System.currentTimeMillis();
-		if(ps.seachCheckPath(m0)) {
-			System.out.println("STUART success");
-		}
-		else {
-			System.out.println("STUART failure");
-		}
-		stopTime = System.currentTimeMillis();
-		System.out.println("Time to seachCheckPath "+(stopTime-startTime));
-		System.out.println("\n===BFS backwards to find all paths");
+//		System.out.println("\n===Recursivly find all paths going forward");
+//		startTime = System.currentTimeMillis();
+//		if(ps.seachCheckPath(m0)) {
+//			System.out.println("STUART success");
+//		}
+//		else {
+//			System.out.println("STUART failure");
+//		}
+//		stopTime = System.currentTimeMillis();
+//		System.out.println("Time to seachCheckPath "+(stopTime-startTime));
+//		System.out.println("\n===BFS backwards to find all paths");
 		startTime = System.currentTimeMillis();
 		ps.DSE(fb,m0);
 		//ps.DSE(fb,m2);		
