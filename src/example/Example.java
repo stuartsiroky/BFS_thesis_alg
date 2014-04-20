@@ -17,7 +17,7 @@ public class Example {
 		System.out.println("===========================");
 		System.out.println("====== graphTest1 =========");
 		System.out.println("===========================");
-		//graphTest1();
+		graphTest1();
 		System.out.println("\n\n");
 		System.out.println("===========================");
 		System.out.println("====== graphTest2 =========");
@@ -26,7 +26,7 @@ public class Example {
 		System.out.println("===========================");
 		System.out.println("====== graphTest3 =========");
 		System.out.println("===========================");	
-		//graphTest3();
+		graphTest3();
 	}
 
 	
