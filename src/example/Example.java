@@ -17,7 +17,7 @@ public class Example {
 		System.out.println("===========================");
 		System.out.println("====== graphTest1 =========");
 		System.out.println("===========================");
-		graphTest1();
+		//graphTest1();
 		System.out.println("\n\n");
 		System.out.println("===========================");
 		System.out.println("====== graphTest2 =========");
@@ -26,15 +26,10 @@ public class Example {
 		System.out.println("===========================");
 		System.out.println("====== graphTest3 =========");
 		System.out.println("===========================");	
-		JimpleParser JP = new JimpleParser();
-		try {
-			JP.ReadJimple("C:\\Users\\ssiroky\\workspace\\BFS\\sootOutput\\codeExamples.DD.jimple");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//graphTest3();
 	}
 
+	
 	private static void graphTest1() {
 		BFSGraph Bgraph = new BFSGraph();
 
@@ -189,4 +184,14 @@ public class Example {
 		//ps.printF2FPath();
 		}	
 	
+	private static void graphTest3() {
+		JimpleParser JP = new JimpleParser();
+		try {
+			JP.ReadJimple("C:\\Users\\ssiroky\\workspace\\BFS\\sootOutput\\codeExamples.DD.jimple");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

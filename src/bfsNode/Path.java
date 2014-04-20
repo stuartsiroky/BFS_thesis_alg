@@ -95,4 +95,8 @@ public class Path {
 		pindex = 0;
 		return getNxtPathNode();
 	}
+	
+	public int get_PathLength() {
+		return path.size();
+	}
 }

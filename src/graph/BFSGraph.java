@@ -14,7 +14,8 @@ public class BFSGraph {
 
 	ArrayList<BFSNode> nodeList = new ArrayList<BFSNode>();
 	AdjacencyList adjList = new AdjacencyList();
-
+	private Queue<BFSNode> workListQ = new LinkedList<BFSNode>();
+	
 	public BFSGraph() {
 	}
 	
@@ -129,6 +130,7 @@ public class BFSGraph {
 						v.setDistance(n.getDistance() + 1);
 						v.addPredecessor(n);
 						q.add(v);
+						workListQ.add(v);
 					} // if WHITE
 					else {
 						v.addPredecessor(n);//add all other predecessors
@@ -151,6 +153,7 @@ public class BFSGraph {
 		startNode.setDistance(0);
 		startNode.clearPredecessors();
 		startNode.clearNext();
+		workListQ.clear();
 	}
 
 	int nodevisitcnt;
@@ -230,6 +233,7 @@ public class BFSGraph {
 						v.addPredecessor(n);
 						q.add(v);
 						trace.add(v);
+						workListQ.add(v);
 					} // if WHITE
 					//else {
 					//	v.addPredecessor(n);//add all other predecessors
@@ -251,6 +255,13 @@ public class BFSGraph {
 		startNode.setDistance(0);
 	}
 
+	public void clearColor(BFSNode startNode) {
+		for (BFSNode n : nodeList) {
+			n.setColor(COLOR.WHITE);
+		}
+		startNode.setColor(COLOR.GRAY);
+	}
+
 	public BFSGraph getPaths(BFSNode startNode, BFSNode finalNode) {
 		System.out.println("getPaths Starting Graph\n"+toString());
 		BFSearchRev(finalNode);
@@ -267,6 +278,10 @@ public class BFSGraph {
 	
 	public int size() { 
 		return nodeList.size();
+	}
+
+	public Queue<BFSNode> getWorkListQ() {
+		return workListQ;
 	}
 	
 	

@@ -33,7 +33,7 @@ public class BFSNode extends Node {
 		String s = "( "+name;
 		s += " | ("+getName()+")";
 		//s += " Color "+color;
-//		s += " Dist "+distance;
+		s += " Dist "+distance;
 //		if(!predecessor.isEmpty()) {
 //			s += " P { ";
 //			for(BFSNode n: predecessor) {
