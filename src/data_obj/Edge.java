@@ -36,4 +36,8 @@ public class Edge implements Comparable<Edge> {
 	public String toString() {
 		return from.toString()+" -> "+to.toString();
 	}
+	
+	public boolean equals(Edge e) {
+		return from.equals(e.getFrom()) && to.equals(e.getTo());
+	}
 }

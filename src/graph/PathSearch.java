@@ -151,14 +151,27 @@ public class PathSearch {
 	}
 
 	public void printPaths(BFSNode n) {
+		int num_paths = 0;
+		int path_length = 0;
+		int longest_path = 0;
+		int shortest_path = 2^32;
 		if (pathMap.containsKey(n)) {
 			ArrayList<Path> paths = pathMap.get(n);
 			for (Path p : paths) {
-				System.out.println(p.toString() + "\n\tPath Condition:: "
+				int plength = p.get_PathLength();
+				num_paths++;
+				path_length += plength;
+				if(plength > longest_path) { longest_path = plength; }
+				if(plength < shortest_path) { shortest_path = plength; }
+				System.out.println("Path Length = "+plength+"\n"+p.toString() + "\n\tPath Condition:: "
 						+ p.getCondition());
 			}
 		}
-	}
+		System.out.println("\tNumber of Paths Found = "+num_paths);
+		System.out.println("\tLongest Path          = "+longest_path);
+		System.out.println("\tShortest Path         = "+shortest_path);
+		System.out.println("\tAve Path Length       = "+path_length/num_paths);
+		}
 
 	/*********************************************************************
 	 * manage_targets() paths = get_paths(node); foreach(path: paths) f =

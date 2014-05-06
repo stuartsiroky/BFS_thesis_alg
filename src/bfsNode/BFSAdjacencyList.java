@@ -1,42 +1,35 @@
-// taken from wiki-algorithms
-package data_obj;
+package bfsNode;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-/** 
- * This was taken from wiki-algorithm
- * @author wiki-algorithms
- *
- */
-public class AdjacencyList {
+public class BFSAdjacencyList {
 
-	private Map<Node, List<Edge>> adjacencies = new HashMap<Node, List<Edge>>();
+	private Map<BFSNode, List<BFSEdge>> adjacencies = new HashMap<BFSNode, List<BFSEdge>>();
 	
-	public void addEdge(Node source, Node target, int weight){
-		List<Edge> list;
+	public void addEdge(BFSNode source, BFSNode target, int weight){
+		List<BFSEdge> list;
 		if(!adjacencies.containsKey(source)){
-			list = new ArrayList<Edge>();
+			list = new ArrayList<BFSEdge>();
 			adjacencies.put(source, list);
 		}else{
 			list = adjacencies.get(source);
 		}
-		Edge e = new Edge(source,target,weight);
-		if(!list.contains(e)) {
+		BFSEdge e = new BFSEdge(source,target,weight);
+		if(!list.contains((BFSEdge) e)) {
 			list.add(e);
 		}
-//	    list.add(new Edge(source, target, weight));
 	}
 
-	public List<Edge> getAdjacent(Node source){
+	public List<BFSEdge> getAdjacent(BFSNode source){
 		return adjacencies.get(source);
 	}
 
-	public void reverseEdge(Edge e){
+	public void reverseEdge(BFSEdge e){
 		adjacencies.get(e.from).remove(e);
 		addEdge(e.getTo(), e.from, e.weight);
 		
@@ -46,36 +39,36 @@ public class AdjacencyList {
 		adjacencies = getReversedList().adjacencies;
 	}
 
-	public AdjacencyList getReversedList(){
-		AdjacencyList newlist = new AdjacencyList();
-		for(List<Edge> edges : adjacencies.values()){
-			for(Edge e : edges){
+	public BFSAdjacencyList getReversedList(){
+		BFSAdjacencyList newlist = new BFSAdjacencyList();
+		for(List<BFSEdge> edges : adjacencies.values()){
+			for(BFSEdge e : edges){
 				newlist.addEdge(e.getTo(), e.from, e.weight);
 			}
 		}
 		return newlist;
 	}
 
-	public Set<Node> getSourceNodeSet(){
+	public Set<BFSNode> getSourceNodeSet(){
 		return adjacencies.keySet();
 	}
 
-	public Collection<Edge> getAllEdges(){
-		List<Edge> edges = new ArrayList<Edge>();
-		for(List<Edge> e : adjacencies.values()){
+	public Collection<BFSEdge> getAllEdges(){
+		List<BFSEdge> edges = new ArrayList<BFSEdge>();
+		for(List<BFSEdge> e : adjacencies.values()){
 			edges.addAll(e);
 		}
 		return edges;
 	}
 
-	public boolean containsNode(Node n) {
+	public boolean containsNode(BFSNode n) {
 		return adjacencies.containsKey(n);
 	}
 
-	public void followReversePath(Node to, Node from, AdjacencyList alist){
-		List<Edge> toList = getAdjacent(from);
+	public void followReversePath(BFSNode to, BFSNode from, BFSAdjacencyList alist){
+		List<BFSEdge> toList = getAdjacent(from);
 		if (toList != null) {
-			for (Edge e : toList) {
+			for (BFSEdge e : toList) {
 				if (to.equals(e.getTo())) {
 					// Add to to the list Stop case
 					alist.addEdge(from,to,0);
@@ -90,8 +83,8 @@ public class AdjacencyList {
 		}
 	}
 
-	public AdjacencyList getPath(Node from, Node to) {
-		AdjacencyList pathList  = new AdjacencyList();
+	public BFSAdjacencyList getPath(BFSNode from, BFSNode to) {
+		BFSAdjacencyList pathList  = new BFSAdjacencyList();
 		reverseGraph();
 		followReversePath(from, to, pathList);
 		reverseGraph();
@@ -99,11 +92,11 @@ public class AdjacencyList {
 		return pathList;
 	}
 
-	public String printFromTo(Node from, Node to) {
-		List<Edge> toList = getAdjacent(from);
+	public String printFromTo(BFSNode from, BFSNode to) {
+		List<BFSEdge> toList = getAdjacent(from);
 		String s = "";
 		if (toList != null) {
-			for (Edge e : toList) {	
+			for (BFSEdge e : toList) {	
 				s = from.toString() + " -> " + printFromTo(e.getTo(),to);
 			}
 		}
@@ -119,12 +112,12 @@ public class AdjacencyList {
 
 	public String toString() {
 		String out = "";
-		Set<Node> sourceNodes;
+		Set<BFSNode> sourceNodes;
 		sourceNodes = getSourceNodeSet();
-		for (Node n : sourceNodes) {
-			List<Edge> toEdges;
+		for (BFSNode n : sourceNodes) {
+			List<BFSEdge> toEdges;
 			toEdges = getAdjacent(n);
-			for (Edge e : toEdges) {
+			for (BFSEdge e : toEdges) {
 				out += "\t" + e.toString() + "\n";
 			}
 			out += "\n";

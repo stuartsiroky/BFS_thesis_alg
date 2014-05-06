@@ -3,6 +3,7 @@ package example;
 //import java.util.Map;
 import java.io.IOException;
 
+import data_obj.AdjacencyList;
 import jimpleParser.JimpleParser;
 import graph.*;
 import bfsNode.*;
@@ -27,6 +28,13 @@ public class Example {
 		System.out.println("====== graphTest3 =========");
 		System.out.println("===========================");	
 		graphTest3();
+		/*BFSAdjacencyList adjList = new BFSAdjacencyList();	
+		BFSNode source = new BFSNode("src");
+		BFSNode target = new BFSNode("trg");
+		adjList.addEdge(source, target, 1);
+		adjList.addEdge(source, target, 1);
+		adjList.addEdge(source, target, 1);
+		System.out.println(adjList.toString());*/
 	}
 
 	
@@ -147,7 +155,7 @@ public class Example {
 		Bgraph.addEdge(b1, f0);
 		Bgraph.addEdge(f1, fb);
 
-		//System.out.println(Bgraph.toString());
+		System.out.println(Bgraph.toString());
 		
 		BFSGraph reducedGraph;
 		startTime = System.currentTimeMillis();

@@ -5,26 +5,26 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import data_obj.AdjacencyList;
-import data_obj.Edge;
+import bfsNode.BFSAdjacencyList;
+import bfsNode.BFSEdge;
 import bfsNode.BFSNode;
 import bfsNode.BFSNode.COLOR;
 
 public class BFSGraph {
 
 	ArrayList<BFSNode> nodeList = new ArrayList<BFSNode>();
-	AdjacencyList adjList = new AdjacencyList();
+	BFSAdjacencyList adjList = new BFSAdjacencyList();
 	private Queue<BFSNode> workListQ = new LinkedList<BFSNode>();
 	
 	public BFSGraph() {
 	}
 	
-	public BFSGraph(ArrayList<BFSNode> nodes, AdjacencyList edges) {
+	public BFSGraph(ArrayList<BFSNode> nodes, BFSAdjacencyList edges) {
 		nodeList = nodes;
 		for(BFSNode n: nodes) {
-			List<Edge> toList = edges.getAdjacent(n);
+			List<BFSEdge> toList = edges.getAdjacent(n);
 			if (toList != null) {
-				for (Edge e : toList) {
+				for (BFSEdge e : toList) {
 					BFSNode v = (BFSNode) e.getTo();
 					if(nodeList.contains(v)) {
 						addEdge(n,(BFSNode) v);
@@ -41,10 +41,12 @@ public class BFSGraph {
 		return false;
 	}
 
-	public void addNode(BFSNode n) {
+	public boolean addNode(BFSNode n) {
 		if (!contains(n)) {
 			nodeList.add(n);
+			return true;
 		} 
+		return false;
 	}
 
 	public BFSNode createNode(String name) {
@@ -121,9 +123,9 @@ public class BFSGraph {
 		while (!q.isEmpty()) {
 			BFSNode n = q.remove();
 			cnt++;
-			List<Edge> toList = adjList.getAdjacent(n);
+			List<BFSEdge> toList = adjList.getAdjacent(n);
 			if (toList != null) {
-				for (Edge e : toList) {
+				for (BFSEdge e : toList) {
 					BFSNode v = (BFSNode) e.getTo();
 					if (v.getColor() == COLOR.WHITE) {
 						v.setColor(COLOR.GRAY);
@@ -190,11 +192,11 @@ public class BFSGraph {
 		while (!q.isEmpty()) {
 			BFSNode n = q.remove();
 			cnt++;
-			List<Edge> fromList = adjList.getReversedList().getAdjacent(n);
+			List<BFSEdge> fromList = adjList.getReversedList().getAdjacent(n);
 			//System.out.println("STUART "+n.toString());
 			//System.out.println(" "+fromList.toString());
 			if (fromList != null) {
-				for (Edge e : fromList) {
+				for (BFSEdge e : fromList) {
 					BFSNode v = (BFSNode) e.getTo();
 					if (v.getColor() == COLOR.WHITE) {
 						v.setColor(COLOR.GRAY);
@@ -284,7 +286,13 @@ public class BFSGraph {
 		return workListQ;
 	}
 	
-	
+	public BFSNode getNodeMatching(String str) {
+		BFSNode tmp = new BFSNode(str);
+		for(BFSNode n:nodeList) {
+			if(n.equals(tmp)) return n;
+		}
+		return null;
+	}
 	
 	
 	
