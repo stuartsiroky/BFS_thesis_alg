@@ -99,7 +99,12 @@ public class BFSNode extends Node {
 	}
 
 	public BFSNode getFirstNext() {
-		return next.get(0);
+		if(!next.isEmpty()) {
+			return next.get(0);	
+		}
+		else {
+			return null;
+		}
 	}
 
 	public void addNext(BFSNode p) {

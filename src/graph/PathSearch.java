@@ -16,7 +16,7 @@ import bfsNode.BFSNode.COLOR;
 public class PathSearch {
 	private BFSGraph graph;
 	int nodesVisited, dseNodeCnt;
-    private ArrayList<BFSNode> workList = new ArrayList<BFSNode>();
+	private ArrayList<BFSNode> workList = new ArrayList<BFSNode>();
 	private LinkedList<BFSNode> workListQ = new LinkedList<BFSNode>();
 	private BFSNode endFunction;
 	private Map<BFSNode, ArrayList<Path>> pathMap = new HashMap<BFSNode, ArrayList<Path>>();
@@ -58,17 +58,17 @@ public class PathSearch {
 		}
 	}
 
-//	private boolean checkPath(ArrayList<BFSNode> path) {
-		// FIXME int curr_prop = -1;
-		// FIXME for (BFSNode n : path) {
-		// FIXME if (n.getName() > curr_prop) {
-		// FIXME curr_prop = n.getName();
-		// FIXME } else {
-		// FIXME return false;
-		// FIXME }
-		// FIXME }
-//		return true;
-//	}
+	// private boolean checkPath(ArrayList<BFSNode> path) {
+	// FIXME int curr_prop = -1;
+	// FIXME for (BFSNode n : path) {
+	// FIXME if (n.getName() > curr_prop) {
+	// FIXME curr_prop = n.getName();
+	// FIXME } else {
+	// FIXME return false;
+	// FIXME }
+	// FIXME }
+	// return true;
+	// }
 
 	/*
 	 * private boolean followNxt(ArrayList<BFSNode> path) { BFSNode last =
@@ -107,71 +107,84 @@ public class PathSearch {
 	// ///////////////////////////////////////////////////////
 
 	public void DSE(BFSNode finalNode, BFSNode startNode) {
-		System.out.println("DSE number of nodes in graph " + graph.size());
-		workListQ.clear();
-		workList.clear();
-		dseNodeCnt = 0;
-		if (graph.contains(finalNode) && graph.contains(startNode)) {
-			prevSearch(startNode); // do this since we did not do our prev
-									// search of the graph can be removed if
-									// already searched
-			// printPred();
-			graph.clearColor(startNode);
-			endFunction = finalNode;
-			//FIXME createWorklist(finalNode);
-			addCallersWorklist(finalNode);
-			while (!isWorklistEmpty()) {
-				BFSNode n = workList.remove(0);
-				//BFSNode n = workListQ.remove();
-				n.setColor(COLOR.GRAY);
-				manageTargets(n);
-				// System.out.println("DSE worklist  = "+workList.toString());
-				//System.out.println("DSE worklistQ = " + workListQ.toString());
-				//System.out.println("DSE pathMap = " + pathMap.toString());
-				n.setColor(COLOR.BLACK);
+		if (graph != null) {
+			System.out.println("DSE number of nodes in graph " + graph.size());
+			workListQ.clear();
+			workList.clear();
+			dseNodeCnt = 0;
+			if (graph.contains(finalNode) && graph.contains(startNode)) {
+				prevSearch(startNode); // do this since we did not do our prev
+										// search of the graph can be removed if
+										// already searched
+				// printPred();
+				graph.clearColor(startNode);
+				endFunction = finalNode;
+				// FIXME createWorklist(finalNode);
+				addCallersWorklist(finalNode);
+				while (!isWorklistEmpty()) {
+					BFSNode n = workList.remove(0);
+					// BFSNode n = workListQ.remove();
+					n.setColor(COLOR.GRAY);
+					manageTargets(n);
+					// System.out.println("DSE worklist  = "+workList.toString());
+					// System.out.println("DSE worklistQ = " +
+					// workListQ.toString());
+					// System.out.println("DSE pathMap = " +
+					// pathMap.toString());
+					n.setColor(COLOR.BLACK);
+				}
+				System.out.println("STUART DSE nodes Visited = " + dseNodeCnt);
+				System.out.println("Feasible Paths from "
+						+ startNode.toString() + " to " + finalNode.toString());
+				printPaths(startNode);
 			}
-			System.out.println("STUART DSE nodes Visited = " + dseNodeCnt);
-			System.out.println("Feasible Paths from " + startNode.toString()
-					+ " to " + finalNode.toString());
-			printPaths(startNode);
+		} else {
+			System.out.println(" No path found between " + startNode.toString()
+					+ " and " + finalNode.toString());
 		}
 	}
 
-//	private void createWorklist(BFSNode finalNode) {
-//		Queue<BFSNode> tmp_wl = graph.getWorkListQ();
-//		while (!tmp_wl.isEmpty()) {
-//			BFSNode n = tmp_wl.remove();
-//			if (!n.equals(finalNode)) {
-//				workListQ.addFirst(n);
-//			}
-//		}
-//		workListQ.addFirst(finalNode);
-//		System.out.println("STUART Qworklist = " + workListQ.toString());
-//
-//	}
+	// private void createWorklist(BFSNode finalNode) {
+	// Queue<BFSNode> tmp_wl = graph.getWorkListQ();
+	// while (!tmp_wl.isEmpty()) {
+	// BFSNode n = tmp_wl.remove();
+	// if (!n.equals(finalNode)) {
+	// workListQ.addFirst(n);
+	// }
+	// }
+	// workListQ.addFirst(finalNode);
+	// System.out.println("STUART Qworklist = " + workListQ.toString());
+	//
+	// }
 
 	public void printPaths(BFSNode n) {
 		int num_paths = 0;
 		int path_length = 0;
 		int longest_path = 0;
-		int shortest_path = 2^32;
+		int shortest_path = 2 ^ 32;
 		if (pathMap.containsKey(n)) {
 			ArrayList<Path> paths = pathMap.get(n);
 			for (Path p : paths) {
 				int plength = p.get_PathLength();
 				num_paths++;
 				path_length += plength;
-				if(plength > longest_path) { longest_path = plength; }
-				if(plength < shortest_path) { shortest_path = plength; }
-				System.out.println("Path Length = "+plength+"\n"+p.toString() + "\n\tPath Condition:: "
+				if (plength > longest_path) {
+					longest_path = plength;
+				}
+				if (plength < shortest_path) {
+					shortest_path = plength;
+				}
+				System.out.println("Path Length = " + plength + "\n"
+						+ p.toString() + "\n\tPath Condition:: "
 						+ p.getCondition());
 			}
 		}
-		System.out.println("\tNumber of Paths Found = "+num_paths);
-		System.out.println("\tLongest Path          = "+longest_path);
-		System.out.println("\tShortest Path         = "+shortest_path);
-		System.out.println("\tAve Path Length       = "+path_length/num_paths);
-		}
+		System.out.println("\tNumber of Paths Found = " + num_paths);
+		System.out.println("\tLongest Path          = " + longest_path);
+		System.out.println("\tShortest Path         = " + shortest_path);
+		System.out.println("\tAve Path Length       = " + path_length
+				/ num_paths);
+	}
 
 	/*********************************************************************
 	 * manage_targets() paths = get_paths(node); foreach(path: paths) f =
@@ -289,26 +302,20 @@ public class PathSearch {
 	}
 
 	private void addCallersWorklist(BFSNode n) {
-	/*	if (n.getColor() == COLOR.WHITE) { // FIXME??
-			// you want to add in order of distance
-			// the highest distance needs to be put at the head of the q
-			boolean Inserted = false;
-			for (int i = 0; i < workListQ.size() && !Inserted; i++) {
-				BFSNode tnode = workListQ.get(i);
-				if (n.getDistance() > tnode.getDistance()) {
-					workListQ.add(i, n);
-					Inserted = true;
-				}
-			}
-			if (!Inserted) {
-				workListQ.addLast(n);
-			}
-		}*/
+		/*
+		 * if (n.getColor() == COLOR.WHITE) { // FIXME?? // you want to add in
+		 * order of distance // the highest distance needs to be put at the head
+		 * of the q boolean Inserted = false; for (int i = 0; i <
+		 * workListQ.size() && !Inserted; i++) { BFSNode tnode =
+		 * workListQ.get(i); if (n.getDistance() > tnode.getDistance()) {
+		 * workListQ.add(i, n); Inserted = true; } } if (!Inserted) {
+		 * workListQ.addLast(n); } }
+		 */
 		workList.add(n);
 	}
 
 	private boolean isWorklistEmpty() {
-		//return workListQ.isEmpty();
+		// return workListQ.isEmpty();
 		return workList.isEmpty();
 	}
 

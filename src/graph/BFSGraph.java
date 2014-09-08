@@ -272,7 +272,7 @@ public class BFSGraph {
 			return new BFSGraph(BFSearchStart(startNode),adjList);
 		}
 		else {
-			System.out.println("STUART failed to find path from "+finalNode.toString()+" to "+startNode.toString());
+			System.out.println("FAILURE: failed to find path from "+finalNode.toString()+" to "+startNode.toString());
 			return null;
 		}
 	}
