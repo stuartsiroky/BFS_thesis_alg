@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
+//import java.util.Queue;
 import java.util.Set;
 
 import data_obj.*;
@@ -58,7 +58,7 @@ public class PathSearch {
 		}
 	}
 
-	private boolean checkPath(ArrayList<BFSNode> path) {
+//	private boolean checkPath(ArrayList<BFSNode> path) {
 		// FIXME int curr_prop = -1;
 		// FIXME for (BFSNode n : path) {
 		// FIXME if (n.getName() > curr_prop) {
@@ -67,8 +67,8 @@ public class PathSearch {
 		// FIXME return false;
 		// FIXME }
 		// FIXME }
-		return true;
-	}
+//		return true;
+//	}
 
 	/*
 	 * private boolean followNxt(ArrayList<BFSNode> path) { BFSNode last =
@@ -137,18 +137,18 @@ public class PathSearch {
 		}
 	}
 
-	private void createWorklist(BFSNode finalNode) {
-		Queue<BFSNode> tmp_wl = graph.getWorkListQ();
-		while (!tmp_wl.isEmpty()) {
-			BFSNode n = tmp_wl.remove();
-			if (!n.equals(finalNode)) {
-				workListQ.addFirst(n);
-			}
-		}
-		workListQ.addFirst(finalNode);
-		System.out.println("STUART Qworklist = " + workListQ.toString());
-
-	}
+//	private void createWorklist(BFSNode finalNode) {
+//		Queue<BFSNode> tmp_wl = graph.getWorkListQ();
+//		while (!tmp_wl.isEmpty()) {
+//			BFSNode n = tmp_wl.remove();
+//			if (!n.equals(finalNode)) {
+//				workListQ.addFirst(n);
+//			}
+//		}
+//		workListQ.addFirst(finalNode);
+//		System.out.println("STUART Qworklist = " + workListQ.toString());
+//
+//	}
 
 	public void printPaths(BFSNode n) {
 		int num_paths = 0;

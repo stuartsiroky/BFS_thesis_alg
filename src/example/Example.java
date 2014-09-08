@@ -1,10 +1,10 @@
 package example;
 
 //import java.util.Map;
-import java.io.IOException;
+//import java.io.IOException;
 
-import data_obj.AdjacencyList;
-import jimpleParser.JimpleParser;
+//import data_obj.AdjacencyList;
+//import jimpleParser.JimpleParser;
 import graph.*;
 import bfsNode.*;
 
@@ -27,7 +27,7 @@ public class Example {
 		System.out.println("===========================");
 		System.out.println("====== graphTest3 =========");
 		System.out.println("===========================");	
-		graphTest3();
+//		graphTest3();
 		/*BFSAdjacencyList adjList = new BFSAdjacencyList();	
 		BFSNode source = new BFSNode("src");
 		BFSNode target = new BFSNode("trg");
@@ -109,7 +109,7 @@ public class Example {
 		//System.out.println(Bgraph.toString());
 	    //Bgraph.FromPath(a, z);
 	System.out.println("\n\n");
-		PathSearch ps = new PathSearch(reducedGraph);
+//		PathSearch ps = new PathSearch(reducedGraph);
 		//if(ps.seachCheckPath(a)) {
 /*		startTime = System.currentTimeMillis();
 		if(ps.seachCheckPath(a)) {
@@ -192,14 +192,14 @@ public class Example {
 		//ps.printF2FPath();
 		}	
 	
-	private static void graphTest3() {
-		JimpleParser JP = new JimpleParser();
-		try {
-			JP.ReadJimple("C:\\Users\\ssiroky\\workspace\\BFS\\sootOutput\\codeExamples.DD.jimple");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	private static void graphTest3() {
+//		JimpleParser JP = new JimpleParser();
+//		try {
+//			JP.ReadJimple("C:\\Users\\ssiroky\\workspace\\BFS\\sootOutput\\codeExamples.DD.jimple");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 }
