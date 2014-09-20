@@ -31,9 +31,9 @@ public class BFSNode extends Node {
 
 	public String toString() {
 		String s = "( "+name;
-		s += " | ("+getName()+")";
+//		s += " | ("+getName()+")";
 		//s += " Color "+color;
-		s += " Dist "+distance;
+//		s += " Dist "+distance;
 //		if(!predecessor.isEmpty()) {
 //			s += " P { ";
 //			for(BFSNode n: predecessor) {
@@ -127,6 +127,10 @@ public class BFSNode extends Node {
 
 	public void setCondition(boolean condition) {
 		this.condition = condition;
+	}
+
+	public String getNodeName() {
+		return name;
 	}
 	
 }

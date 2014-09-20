@@ -13,4 +13,7 @@ public class ConditionNode extends BFSNode {
 		return SymbCondition;
 	}
 
+	public String toString() {
+		return "C{" + super.toString()+ "}C";
+	}
 }

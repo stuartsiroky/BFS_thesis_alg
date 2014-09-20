@@ -9,34 +9,38 @@ import bfsNode.BFSAdjacencyList;
 import bfsNode.BFSEdge;
 import bfsNode.BFSNode;
 import bfsNode.BFSNode.COLOR;
+import java.io.*;
+import bfsNode.FunctionNode;
+import bfsNode.ConditionNode;
 
 public class BFSGraph {
 
 	ArrayList<BFSNode> nodeList = new ArrayList<BFSNode>();
 	BFSAdjacencyList adjList = new BFSAdjacencyList();
 	private Queue<BFSNode> workListQ = new LinkedList<BFSNode>();
-	
+
 	public BFSGraph() {
 	}
-	
+
 	public BFSGraph(ArrayList<BFSNode> nodes, BFSAdjacencyList edges) {
 		nodeList = nodes;
-		for(BFSNode n: nodes) {
+		for (BFSNode n : nodes) {
 			List<BFSEdge> toList = edges.getAdjacent(n);
 			if (toList != null) {
 				for (BFSEdge e : toList) {
 					BFSNode v = (BFSNode) e.getTo();
-					if(nodeList.contains(v)) {
-						addEdge(n,(BFSNode) v);
+					if (nodeList.contains(v)) {
+						addEdge(n, (BFSNode) v);
 					}
 				}
 			}
 		}
 	}
-	
+
 	public boolean contains(BFSNode node) {
-		for(BFSNode n:nodeList) {
-			if(node.equals(n)) return true;
+		for (BFSNode n : nodeList) {
+			if (node.equals(n))
+				return true;
 		}
 		return false;
 	}
@@ -45,20 +49,40 @@ public class BFSGraph {
 		if (!contains(n)) {
 			nodeList.add(n);
 			return true;
-		} 
+		}
 		return false;
 	}
 
 	public BFSNode createNode(String name) {
 		BFSNode n = new BFSNode(name);
-		if(!contains(n)) {
+		if (!contains(n)) {
 			nodeList.add(n);
 			return n;
 		} else {
-			return null;
+			return getNodeMatching(n.getNodeName());
 		}
 	}
-
+	
+	public FunctionNode createFNode(String name) {
+		FunctionNode n = new FunctionNode(name);
+		if (!contains(n)) {
+			nodeList.add(n);
+			return n;
+		} else {
+			return (FunctionNode) getNodeMatching(n.getNodeName());
+		}
+	}
+	
+	public ConditionNode createCNode(String name, String cond) {
+		ConditionNode n = new ConditionNode(name,cond);
+		if (!contains(n)) {
+			nodeList.add(n);
+			return n;
+		} else {
+			return (ConditionNode) getNodeMatching(n.getNodeName());
+		}
+	}
+	
 	public void addEdge(BFSNode from, BFSNode to) {
 		adjList.addEdge(from, to, 1);
 	}
@@ -105,8 +129,6 @@ public class BFSGraph {
 		}
 	}
 
-
-
 	// public void printPath(BFSNode from, BFSNode to) {
 	// System.out.println("Stuart printing path from "+from.toString()+" to "+to.toString());
 	// AdjacencyList newlist = new AdjacencyList();
@@ -117,7 +139,7 @@ public class BFSGraph {
 
 	public void BFSearch(BFSNode startNode) {
 		Queue<BFSNode> q = new LinkedList<BFSNode>();
-		int cnt = 0; 
+		int cnt = 0;
 		initSearch(startNode);
 		q.add(startNode);
 		while (!q.isEmpty()) {
@@ -135,13 +157,13 @@ public class BFSGraph {
 						workListQ.add(v);
 					} // if WHITE
 					else {
-						v.addPredecessor(n);//add all other predecessors
+						v.addPredecessor(n);// add all other predecessors
 					}// else if GREY
 				} // for edge
 			}// not null
 			n.setColor(COLOR.BLACK);
 		} // !q.isEmpty
-		System.out.println("BFSearch nodes visited = "+cnt);
+		System.out.println("BFSearch nodes visited = " + cnt);
 	}
 
 	private void initSearch(BFSNode startNode) {
@@ -159,42 +181,44 @@ public class BFSGraph {
 	}
 
 	int nodevisitcnt;
+
 	public void FromPath(BFSNode startNode, BFSNode finishNode) {
 		// do a BF search and then go backwards on the predecessors of the nodes
 		BFSearch(startNode);
-		if(pathExists(startNode,finishNode)){
+		if (pathExists(startNode, finishNode)) {
 			nodevisitcnt = 0;
 			ArrayList<BFSNode> callTrace = new ArrayList<BFSNode>();
-			traceBack(callTrace,finishNode);
-			
-		System.out.println("STUART ========\n"+callTrace.toString());
+			traceBack(callTrace, finishNode);
+
+			System.out.println("STUART ========\n" + callTrace.toString());
 		}
-		System.out.println("FromPath nodes visited = "+nodevisitcnt);
+		System.out.println("FromPath nodes visited = " + nodevisitcnt);
 	}
 
 	public void traceBack(ArrayList<BFSNode> callTrace, BFSNode finishNode) {
-		if(!callTrace.contains(finishNode)) {
+		if (!callTrace.contains(finishNode)) {
 			callTrace.add(finishNode);
 			nodevisitcnt++;
 			ArrayList<BFSNode> fromList = finishNode.getPredecessors();
-			for(BFSNode from: fromList) {
-				traceBack(callTrace,from);
+			for (BFSNode from : fromList) {
+				traceBack(callTrace, from);
 			}
-		}	
+		}
 	}
-	
+
 	public void BFSearchRev(BFSNode finalNode) {
 		Queue<BFSNode> q = new LinkedList<BFSNode>();
-		System.out.println("Number of node in starting graph "+nodeList.size());
-		int cnt=0;
+		System.out.println("Number of node in starting graph "
+				+ nodeList.size());
+		int cnt = 0;
 		initSearch(finalNode);
 		q.add(finalNode);
 		while (!q.isEmpty()) {
 			BFSNode n = q.remove();
 			cnt++;
 			List<BFSEdge> fromList = adjList.getReversedList().getAdjacent(n);
-			//System.out.println("STUART "+n.toString());
-			//System.out.println(" "+fromList.toString());
+			// System.out.println("STUART "+n.toString());
+			// System.out.println(" "+fromList.toString());
 			if (fromList != null) {
 				for (BFSEdge e : fromList) {
 					BFSNode v = (BFSNode) e.getTo();
@@ -205,13 +229,13 @@ public class BFSGraph {
 						q.add(v);
 					} // if WHITE
 					else {
-						v.addNext(n);//add all other predecessors
+						v.addNext(n);// add all other predecessors
 					}// else if GREY
 				} // for edge
 			}// not null
 			n.setColor(COLOR.BLACK);
 		} // !q.isEmpty
-		System.out.println("BFSeachRev nodes visited = "+cnt);
+		System.out.println("BFSeachRev nodes visited = " + cnt);
 	}
 
 	public ArrayList<BFSNode> BFSearchStart(BFSNode startNode) {
@@ -237,14 +261,14 @@ public class BFSGraph {
 						trace.add(v);
 						workListQ.add(v);
 					} // if WHITE
-					//else {
-					//	v.addPredecessor(n);//add all other predecessors
-					//}// else if GREY
+						// else {
+						// v.addPredecessor(n);//add all other predecessors
+						// }// else if GREY
 				} // for edge
 			}// not null
 			n.setColor(COLOR.BLACK);
 		} // !q.isEmpty
-		System.out.println("BFSearchStart nodes visited = "+cnt);
+		System.out.println("BFSearchStart nodes visited = " + cnt);
 		return trace;
 	}
 
@@ -265,35 +289,65 @@ public class BFSGraph {
 	}
 
 	public BFSGraph getPaths(BFSNode startNode, BFSNode finalNode) {
-		System.out.println("getPaths Starting Graph\n"+toString());
+		System.out.println("getPaths Starting Graph\n" + toString());
 		BFSearchRev(finalNode);
-		
-		if(pathRevExists(finalNode,startNode)){
-			return new BFSGraph(BFSearchStart(startNode),adjList);
-		}
-		else {
-			System.out.println("FAILURE: failed to find path from "+startNode.toString()+" to "+finalNode.toString());
+
+		if (pathRevExists(finalNode, startNode)) {
+			return new BFSGraph(BFSearchStart(startNode), adjList);
+		} else {
+			System.out.println("FAILURE: failed to find path from "
+					+ startNode.toString() + " to " + finalNode.toString());
 			return null;
 		}
 	}
-		
-	
-	public int size() { 
+
+	public int size() {
 		return nodeList.size();
 	}
 
 	public Queue<BFSNode> getWorkListQ() {
 		return workListQ;
 	}
-	
+
 	public BFSNode getNodeMatching(String str) {
 		BFSNode tmp = new BFSNode(str);
-		for(BFSNode n:nodeList) {
-			if(n.equals(tmp)) return n;
+		for (BFSNode n : nodeList) {
+			if (n.equals(tmp))
+				return n;
 		}
 		return null;
 	}
-	
-	
-	
+
+	public void write_to_file(String outfile) throws IOException {
+		PrintWriter out = null;
+		try {
+			out = new PrintWriter(new FileWriter(outfile));
+			out.print(this.toString());
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
+
+	public void read_from_file(String infile) throws IOException {
+		BufferedReader in = null;
+		try {
+			in = new BufferedReader(new FileReader(infile));
+			String text = " ";
+			while(text != null) {
+				text = in.readLine();
+				//System.out.println("STUARTSSS"+text);
+				//TODO parse the file correctly
+				// if starts with F create funcitonNode
+				// if start with C create ConditionNode
+				// if starts with T create a transition from two nodes
+				
+			}
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+	}
 }

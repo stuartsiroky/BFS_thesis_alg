@@ -118,9 +118,9 @@ public class BFSAdjacencyList {
 			List<BFSEdge> toEdges;
 			toEdges = getAdjacent(n);
 			for (BFSEdge e : toEdges) {
-				out += "\t" + e.toString() + "\n";
+				out += "\tT{ " + e.toString() + " }T\n";
 			}
-			out += "\n";
+			//out += "\n";
 		}
 		return out;
 	}
