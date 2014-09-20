@@ -12,6 +12,7 @@ import bfsNode.BFSNode.COLOR;
 import java.io.*;
 import bfsNode.FunctionNode;
 import bfsNode.ConditionNode;
+import java.util.regex.*;
 
 public class BFSGraph {
 
@@ -332,22 +333,80 @@ public class BFSGraph {
 
 	public void read_from_file(String infile) throws IOException {
 		BufferedReader in = null;
+
 		try {
 			in = new BufferedReader(new FileReader(infile));
-			String text = " ";
+			String text = in.readLine();
 			while(text != null) {
+				if(matchesTrans(text)) {
+				}
+				else if(matchesFNode(text)) {
+				}
+				else if(matchesCNode(text)) {
+				}
 				text = in.readLine();
-				//System.out.println("STUARTSSS"+text);
-				//TODO parse the file correctly
-				// if starts with F create funcitonNode
-				// if start with C create ConditionNode
-				// if starts with T create a transition from two nodes
-				
 			}
+			System.out.println("READIN\n"+toString());
 		} finally {
 			if (in != null) {
 				in.close();
 			}
 		}
 	}
+	
+	private boolean matchesFNode(String str) {
+		Pattern p = Pattern.compile("F\\{ (?<node1>.*) \\}F");
+		Matcher m;
+		m = p.matcher(str);
+		if(m.matches()) {
+			createFNode(m.group("node1"));
+			//System.out.println("matches function node "+m.group("node1"));	
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	private boolean matchesCNode(String str) {
+		Pattern p = Pattern.compile("C\\{ (?<node1>.*) \\}C");
+		Matcher m;
+		m = p.matcher(str);
+		if(m.matches()) {
+			String s[] = (m.group("node1").split("::"));
+			createCNode(s[0],s[1]);
+			//System.out.println("matches condition node "+m.group("node1"));	
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	private boolean matchesTrans(String str) {
+		String n1 = "[FC]\\{ (?<node1>.*) \\}[FC]";
+		String n2 = "[FC]\\{ (?<node2>.*) \\}[FC]";
+		String regex = "\\s+T\\{ "+n1+" -> "+n2+" \\}T";
+		Pattern p = Pattern.compile(regex);
+		Matcher m;
+		m = p.matcher(str);
+		if(m.matches()) {
+			BFSNode from = getNodeMatching(m.group("node1"));
+			BFSNode to   = getNodeMatching(m.group("node2"));
+			if((from != null) && (to != null)) {
+				addEdge(from,to);
+				//System.out.println("matches transition "+m.group("node1")+" -> "+m.group("node2"));	
+				return true;
+			} else {
+				System.out.println("One or more mode not found for transition.");
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
+
+
 }

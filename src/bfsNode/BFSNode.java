@@ -30,7 +30,8 @@ public class BFSNode extends Node {
 	}
 
 	public String toString() {
-		String s = "( "+name;
+		String s = " ";
+		s += name;
 //		s += " | ("+getName()+")";
 		//s += " Color "+color;
 //		s += " Dist "+distance;
@@ -48,7 +49,8 @@ public class BFSNode extends Node {
 //			}
 //			s += "} ";
 //			}
-		s += " )";
+//		s += " )";
+		s += " ";
 		return s;	
 	}
 
