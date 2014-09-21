@@ -355,7 +355,7 @@ public class BFSGraph {
 	}
 	
 	private boolean matchesFNode(String str) {
-		Pattern p = Pattern.compile("F\\{ (?<node1>.*) \\}F");
+		Pattern p = Pattern.compile("F\\{\\s+(?<node1>.*)\\s+\\}F");
 		Matcher m;
 		m = p.matcher(str);
 		if(m.matches()) {
@@ -369,7 +369,7 @@ public class BFSGraph {
 	}
 
 	private boolean matchesCNode(String str) {
-		Pattern p = Pattern.compile("C\\{ (?<node1>.*) \\}C");
+		Pattern p = Pattern.compile("C\\{\\s+(?<node1>.*)\\s+\\}C");
 		Matcher m;
 		m = p.matcher(str);
 		if(m.matches()) {
@@ -384,9 +384,9 @@ public class BFSGraph {
 	}
 
 	private boolean matchesTrans(String str) {
-		String n1 = "[FC]\\{ (?<node1>.*) \\}[FC]";
-		String n2 = "[FC]\\{ (?<node2>.*) \\}[FC]";
-		String regex = "\\s+T\\{ "+n1+" -> "+n2+" \\}T";
+		String n1 = "[FC]\\{\\s+(?<node1>.*)\\s+\\}[FC]";
+		String n2 = "[FC]\\{\\s+(?<node2>.*)\\s+\\}[FC]";
+		String regex = "\\s+"+n1+"\\s+->\\s+"+n2+"";
 		Pattern p = Pattern.compile(regex);
 		Matcher m;
 		m = p.matcher(str);
