@@ -29,6 +29,7 @@ public class JimpleParser {
 	}
 
 	public void ReadJimple(String file) throws IOException {
+		System.out.println("Processing File "+file);
 		reader = new BufferedReader(new FileReader(file));
 		String line = null;
 		while ((line = reader.readLine()) != null) {
@@ -36,7 +37,7 @@ public class JimpleParser {
 			prevLine = line;
 			// System.out.println(line);
 		}
-		System.out.println(cfg.toString());
+		//System.out.println(cfg.toString());
 	}
 
 	private void processLine(String line) {
@@ -143,4 +144,15 @@ public class JimpleParser {
 		return cfg;
 	}
 
+	public void printCFG() {
+		System.out.println(cfg.toString());
+	}
+	
+	public void writeCFG2File(String outfile) {
+		try {
+			cfg.write_to_file(outfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

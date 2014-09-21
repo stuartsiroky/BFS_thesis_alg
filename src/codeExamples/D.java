@@ -2,7 +2,7 @@ package codeExamples;
 
 
 public class D {
-	public void main(String[] a) {
+	public static void main(String[] s)  {
 		int i =0;
 		if(i>1){
 			foo(i);

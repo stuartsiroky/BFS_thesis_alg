@@ -1,14 +1,10 @@
 package example;
 
-//import java.util.Map;
-//import java.io.IOException;
 
-//import data_obj.AdjacencyList;
-//import jimpleParser.JimpleParser;
 import java.io.IOException;
-
 import graph.*;
 import bfsNode.*;
+import jimpleParser.*;
 
 //import org.eclipse.jdt.core.dom.*;
 
@@ -34,16 +30,12 @@ public class Example {
 		System.out.println("====== graphTest4 =========");
 		System.out.println("===========================");	
 		graphTest4();
-		/*BFSAdjacencyList adjList = new BFSAdjacencyList();	
-		BFSNode source = new BFSNode("src");
-		BFSNode target = new BFSNode("trg");
-		adjList.addEdge(source, target, 1);
-		adjList.addEdge(source, target, 1);
-		adjList.addEdge(source, target, 1);
-		System.out.println(adjList.toString());*/
+		System.out.println("===========================");
+		System.out.println("====== graphTest5 =========");
+		System.out.println("===========================");	
+		graphTest5();
 	}
 
-	
 	private static void graphTest1() {
 		BFSGraph Bgraph = new BFSGraph();
 
@@ -277,16 +269,8 @@ public class Example {
 		stopTime = System.currentTimeMillis();
 		System.out.println("Time to DSE "+(stopTime-startTime));
 		ps.createF2FPath();
-		//ps.printF2FPath();
-		//		JimpleParser JP = new JimpleParser();
-	//		try {
-	//			JP.ReadJimple("C:\\Users\\ssiroky\\workspace\\BFS\\sootOutput\\codeExamples.DD.jimple");
-	//		} catch (IOException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-		}
 
+		}
 
 	private static void graphTest4() {
 		BFSGraph Bgraph = new BFSGraph();
@@ -299,4 +283,18 @@ public class Example {
 	
 	}
 
+	private static void graphTest5() {
+		JimpleParser JP = new JimpleParser();
+			try {
+				JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.DD.jimple");
+				JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.E.jimple");
+				JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.FF.jimple");
+				JP.printCFG();
+			
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+
+	
 }
