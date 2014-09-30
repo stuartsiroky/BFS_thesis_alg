@@ -81,6 +81,8 @@ public class JimpleParser {
 			if (!sArray[sArray.length - 1].matches("[<]init[>][()]+")) { //ignore this case
 				String rtn_type = sArray[sArray.length - 2];
 				CallingFuncName = sArray[sArray.length - 1];
+				
+				
 				FunctionNode f = manageFunctionNodes(ClassName,CallingFuncName,rtn_type);
 				cfg.addNode(f);
 				CallingNode = f;

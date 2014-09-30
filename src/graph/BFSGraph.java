@@ -1,6 +1,7 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -9,9 +10,12 @@ import bfsNode.BFSAdjacencyList;
 import bfsNode.BFSEdge;
 import bfsNode.BFSNode;
 import bfsNode.BFSNode.COLOR;
+
 import java.io.*;
+
 import bfsNode.FunctionNode;
 import bfsNode.ConditionNode;
+
 import java.util.regex.*;
 
 public class BFSGraph {
@@ -407,6 +411,37 @@ public class BFSGraph {
 		}
 	}
 
+	public boolean compare(BFSGraph cTo) {
+		boolean result = true;
+		Collection<BFSEdge> eF = adjList.getAllEdges();
+		Collection<BFSEdge> eT = cTo.adjList.getAllEdges();
 
+		if(size() != cTo.size()) {
+			result = false;
+			System.out.println("Number of nodes not the same.\n"
+					+size()+ " Actual "+cTo.size()+"\n");
+		}
+		else {
+			for(BFSNode n: nodeList) {
+				if(!cTo.contains(n)) {
+					result = false;
+					System.out.println("Node "+n.toString()+ " is not contained in actual graph\n");
+				}
+			}
+		}
+		if(eF.size() != eT.size()) {
+			result = false;
+			System.out.println("Number of edges not the same.\n"
+					+eF.size()+ " Actual "+eT.size()+"\n");
+		} else {
+			for(BFSEdge e: eF) {
+				if(!eT.contains(e)){
+					result = false;
+					System.out.println("Edge "+e.toString()+" is not contained in actual.\n");
+				}
+			}
+		}
+		return result;
+	}
 
 }

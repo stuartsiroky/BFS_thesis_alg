@@ -286,9 +286,15 @@ public class Example {
 	private static void graphTest5() {
 		JimpleParser JP = new JimpleParser();
 			try {
-				JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.DD.jimple");
-				JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.E.jimple");
-				JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.FF.jimple");
+				//JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.DD.jimple");
+				//JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.E.jimple");
+				//JP.ReadJimple("C:\\Users\\StuartSiroky\\workspace_kepler_1.0\\SootExample\\sootOutput\\codeExamples.FF.jimple");
+				String base = "C:\\Users\\StuartSiroky\\git\\NoSwingCalc\\sootOutput\\";
+				//base = base;
+				JP.ReadJimple(base+"calc.noSwing.JButton.jimple");
+				JP.ReadJimple(base+"calc.noSwing.JPanel.jimple");
+				JP.ReadJimple(base+"calc.view.CalculatorView.jimple");
+				JP.ReadJimple(base+"calc.model.ModelEvent.jimple");
 				JP.printCFG();
 			
 			} catch (IOException e) {
