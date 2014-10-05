@@ -29,7 +29,7 @@ public class JimpleParser {
 	}
 
 	public void ReadJimple(String file) throws IOException {
-		System.out.println("Processing File "+file);
+		System.out.println("Processing File " + file);
 		reader = new BufferedReader(new FileReader(file));
 		String line = null;
 		while ((line = reader.readLine()) != null) {
@@ -37,7 +37,7 @@ public class JimpleParser {
 			prevLine = line;
 			// System.out.println(line);
 		}
-		//System.out.println(cfg.toString());
+		// System.out.println(cfg.toString());
 	}
 
 	private void processLine(String line) {
@@ -48,18 +48,19 @@ public class JimpleParser {
 		String opencurly_match = "\\s*[{].*";
 
 		if (line.matches(class_match)) {
-			// System.out.println(line);
+			 //System.out.println(line);
 			extractClassName(line);
-			//System.out.println("ClassName " + ClassName);
+			 //System.out.println("ClassName " + ClassName);
 		} else if (line.matches(main_match)) {
-			//System.out.println("Main " + line);
+			 //System.out.println("Main " + line);
 			extractMain(line);
 		} else if (line.matches(invoke_match)) {
-			//System.out.println("Invoke " + line);
+			 //System.out.println("Invoke " + line);
 			extractInvoke(line);
-		} else if (line.matches(opencurly_match) && 
-				!(prevLine.matches(class_match) || prevLine.matches(main_match))) {
-			//System.out.println("Func " + prevLine);
+		} else if (line.matches(opencurly_match)
+				&& !(prevLine.matches(class_match) || 
+						prevLine.matches(main_match))) {
+			 //System.out.println("Func " + prevLine);
 			extractFunc(prevLine);
 		}
 
@@ -76,14 +77,26 @@ public class JimpleParser {
 	}
 
 	private void extractFunc(String line) {
-		String sArray[] = line.split("\\s+");
+		String sArray[] = line.split("[\\(\\)]");
+		String inputs = "";
+		if(sArray.length>=2){
+			inputs = sArray[1];
+		}
+		line = sArray[0];
+		sArray = line.split("\\s+");
 		if (sArray.length >= 3) {
-			if (!sArray[sArray.length - 1].matches("[<]init[>][()]+")) { //ignore this case
-				String rtn_type = sArray[sArray.length - 2];
-				CallingFuncName = sArray[sArray.length - 1];
-				
-				
-				FunctionNode f = manageFunctionNodes(ClassName,CallingFuncName,rtn_type);
+			//for(String s: sArray) {
+			//	System.out.println("STUART =="+s+"==");	
+			//}
+			if (!sArray[2].matches("[<]init[>][()]+")) { // ignore
+																			// this
+																			// case
+				String rtn_type = sArray[2];
+				CallingFuncName = sArray[3]+"("+inputs+")";
+				String regex = "\\s+";
+				CallingFuncName = CallingFuncName.replaceAll(regex, "");
+				FunctionNode f = manageFunctionNodes(ClassName,
+						CallingFuncName, rtn_type);
 				cfg.addNode(f);
 				CallingNode = f;
 			}
@@ -96,10 +109,11 @@ public class JimpleParser {
 			String substr = sArray[1];
 			sArray = substr.split("\\s+");
 			if (sArray.length >= 3) {
-				String class_n = sArray[sArray.length - 3];
-				String rtn_type = sArray[sArray.length - 2];
-				CurrFuncName = sArray[sArray.length - 1];
-				FunctionNode fn = manageFunctionNodes(class_n, CurrFuncName, rtn_type);
+				String class_n = sArray[0];
+				String rtn_type = sArray[1];
+				CurrFuncName = sArray[2];
+				FunctionNode fn = manageFunctionNodes(class_n, CurrFuncName,
+						rtn_type);
 				if (CallingNode != null) {
 					cfg.addEdge(CallingNode, fn);
 				}
@@ -109,7 +123,8 @@ public class JimpleParser {
 		}
 	}
 
-	private FunctionNode manageFunctionNodes(String class_n, String func_n, String rtn_type) {
+	private FunctionNode manageFunctionNodes(String class_n, String func_n,
+			String rtn_type) {
 		FunctionNode fn = new FunctionNode(class_n + func_n);
 		cfg.addNode((BFSNode) fn);
 		addFuncList(class_n, rtn_type + " " + func_n);
@@ -149,7 +164,7 @@ public class JimpleParser {
 	public void printCFG() {
 		System.out.println(cfg.toString());
 	}
-	
+
 	public void writeCFG2File(String outfile) {
 		try {
 			cfg.write_to_file(outfile);
