@@ -328,7 +328,10 @@ public class Example {
 		fileList[15] = "calc.view.JFrameView";
 		fileList[16] = "calc.view.CalculatorView$Handler";
 
-
+//		String[] fileList = new String[2];
+//		fileList[0] = "calc.noSwing.JButton";
+//		fileList[1] = "calc.view.CalculatorView$Handler";
+		
 		for (String f : fileList) {
 			if (f != null) {
 				try {
@@ -339,11 +342,11 @@ public class Example {
 				}
 			}
 		}
-		// GG.createCFG (cfg,"");
+		GG.cleanup_any_pure_interface(cfg);
 		String startNodeName = "calc.view.CalculatorView.equals(Lcalc/view/CalculatorView;)V";
 		String finalNodeName = "calc.model.CalculatorModel.equals()V";
 		BFSNode Start = cfg.getNodeMatching(startNodeName);
-		BFSNode End = cfg.getNodeMatching(finalNodeName);
+		BFSNode End   = cfg.getNodeMatching(finalNodeName);
 		System.out.println("STUART BFSGraph\n" + cfg.toString());
 		System.out.println("GM Looking For StartNode = " + startNodeName);
 		System.out.println("GM Looking For EndNode   = " + finalNodeName);
@@ -369,7 +372,6 @@ public class Example {
 				System.out.println("WARNING: could not find Final "
 						+ finalNodeName + "\n");
 			}
-//			System.out.println("GRAPH:\n" + Bgraph.toString());
 		}
 		System.out.println("=========================");
 		System.out.println("=========================\n");

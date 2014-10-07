@@ -25,8 +25,23 @@ public class BFSAdjacencyList {
 		}
 	}
 
+	public void remove(BFSEdge edge) {
+		List<BFSEdge> list;
+		BFSNode from = edge.getFrom();
+		if(adjacencies.containsKey(from)){
+			list = adjacencies.get(from);
+			list.remove(edge);
+			adjacencies.put(from, list);
+		}
+	}
+	
 	public List<BFSEdge> getAdjacent(BFSNode source){
-		return adjacencies.get(source);
+		if(adjacencies.containsKey(source)) {
+			return adjacencies.get(source);
+		}
+		else {
+			return new ArrayList<BFSEdge>();
+		}
 	}
 
 	public void reverseEdge(BFSEdge e){
@@ -43,7 +58,7 @@ public class BFSAdjacencyList {
 		BFSAdjacencyList newlist = new BFSAdjacencyList();
 		for(List<BFSEdge> edges : adjacencies.values()){
 			for(BFSEdge e : edges){
-				newlist.addEdge(e.getTo(), e.from, e.weight);
+				newlist.addEdge(e.getTo(), e.getFrom(), e.weight);
 			}
 		}
 		return newlist;
@@ -124,4 +139,6 @@ public class BFSAdjacencyList {
 		}
 		return out;
 	}
+
+
 }

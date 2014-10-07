@@ -58,6 +58,10 @@ public class BFSGraph {
 		return false;
 	}
 
+	public boolean removeNode(BFSNode n) {
+		return nodeList.remove(n);
+	}
+	
 	public BFSNode createNode(String name) {
 		BFSNode n = new BFSNode(name);
 		if (!contains(n)) {
@@ -90,6 +94,10 @@ public class BFSGraph {
 	
 	public void addEdge(BFSNode from, BFSNode to) {
 		adjList.addEdge(from, to, 1);
+	}
+
+	public void removeEdge(BFSEdge edge) {
+		adjList.remove(edge);
 	}
 
 	public String toString() {
@@ -218,14 +226,14 @@ public class BFSGraph {
 		int cnt = 0;
 		initSearch(finalNode);
 		q.add(finalNode);
+		BFSAdjacencyList RL = adjList.getReversedList();
 		while (!q.isEmpty()) {
 			BFSNode n = q.remove();
 			cnt++;
-			List<BFSEdge> fromList = adjList.getReversedList().getAdjacent(n);
-			// System.out.println("STUART "+n.toString());
-			// System.out.println(" "+fromList.toString());
+			List<BFSEdge> fromList = RL.getAdjacent(n);
 			if (fromList != null) {
-				for (BFSEdge e : fromList) {
+				 System.out.println(" "+fromList.toString());
+				 for (BFSEdge e : fromList) {
 					BFSNode v = (BFSNode) e.getTo();
 					if (v.getColor() == COLOR.WHITE) {
 						v.setColor(COLOR.GRAY);
@@ -241,6 +249,7 @@ public class BFSGraph {
 			n.setColor(COLOR.BLACK);
 		} // !q.isEmpty
 		System.out.println("BFSeachRev nodes visited = " + cnt);
+		
 	}
 
 	public ArrayList<BFSNode> BFSearchStart(BFSNode startNode) {
@@ -296,7 +305,7 @@ public class BFSGraph {
 	public BFSGraph getPaths(BFSNode startNode, BFSNode finalNode) {
 		System.out.println("getPaths Starting Graph\n" + toString());
 		BFSearchRev(finalNode);
-
+System.out.println("==Reduced Graph \n"+toString());
 		if (pathRevExists(finalNode, startNode)) {
 			return new BFSGraph(BFSearchStart(startNode), adjList);
 		} else {
