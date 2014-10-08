@@ -32,7 +32,7 @@ public class BFSNode extends Node {
 	public String toString() {
 		String s = " ";
 		s += name;
-//		s += " | ("+getName()+")";
+//		s += " | ("+getName()+")";//USE FOR DEBUG 
 		//s += " Color "+color;
 //		s += " Dist "+distance;
 //		if(!predecessor.isEmpty()) {
@@ -133,6 +133,18 @@ public class BFSNode extends Node {
 
 	public String getNodeName() {
 		return name;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public void addWeight() {
+		this.weight++;
 	}
 	
 }

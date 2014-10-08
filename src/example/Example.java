@@ -16,28 +16,32 @@ public class Example {
 		System.out.println("===========================");
 		System.out.println("====== graphTest1 =========");
 		System.out.println("===========================");
-//		graphTest1();
+		graphTest1();
 		System.out.println("\n\n");
 		System.out.println("===========================");
 		System.out.println("====== graphTest2 =========");
 		System.out.println("===========================");
-//		graphTest2();
+		graphTest2();
 		System.out.println("===========================");
 		System.out.println("====== graphTest3 =========");
 		System.out.println("===========================");
-//		graphTest3();
+		graphTest3();
 		System.out.println("===========================");
 		System.out.println("====== graphTest4 =========");
 		System.out.println("===========================");
-//		graphTest4();
+		graphTest4();
 		System.out.println("===========================");
 		System.out.println("====== graphTest5 =========");
 		System.out.println("===========================");
-//		graphTest5();
+		graphTest5();
 		System.out.println("===========================");
 		System.out.println("====== graphTest6 =========");
 		System.out.println("===========================");
 		graphTest6();
+		System.out.println("===========================");
+		System.out.println("====== graphTest7 =========");
+		System.out.println("===========================");
+		graphTest7();
 	}
 
 	private static void graphTest1() {
@@ -302,9 +306,6 @@ public class Example {
 		}
 	}
 
-	BFSGraph cfg = new BFSGraph();
-	GraphGenerator GG = new GraphGenerator();
-
 	private static void graphTest6() {
 		BFSGraph cfg = new BFSGraph();
 		GraphGenerator GG = new GraphGenerator();
@@ -351,6 +352,11 @@ public class Example {
 		System.out.println("GM Looking For StartNode = " + startNodeName);
 		System.out.println("GM Looking For EndNode   = " + finalNodeName);
 		if (Start != null && End != null) {
+			try {
+				cfg.write_to_file("C:\\Users\\StuartSiroky\\Documents\\calcNoSwing.txt");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			BFSGraph reducedGraph = cfg.getPaths(Start, End);
 			if (reducedGraph != null) {
 				System.out.println(reducedGraph.toString() + "\n\n");
@@ -378,4 +384,65 @@ public class Example {
 
 	
 	}
+	
+	
+	private static void graphTest7() {
+		BFSGraph cfg = new BFSGraph();
+		GraphGenerator GG = new GraphGenerator();
+		String[] fileList = new String[1];
+		
+		fileList[0] = "codeExamples.InfeasablePath";
+
+		for (String f : fileList) {
+			if (f != null) {
+				try {
+					System.out.println("STUART opening "+f);
+					GG.createCFG(cfg, f);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		GG.cleanup_any_pure_interface(cfg);
+		String startNodeName = "codeExamples.InfeasablePath.start(I)V";
+		String finalNodeName = "codeExamples.InfeasablePath.foo_bar()V";
+		BFSNode Start = cfg.getNodeMatching(startNodeName);
+		BFSNode End   = cfg.getNodeMatching(finalNodeName);
+		System.out.println("STUART BFSGraph\n" + cfg.toString());
+		System.out.println("GM Looking For StartNode = " + startNodeName);
+		System.out.println("GM Looking For EndNode   = " + finalNodeName);
+		if (Start != null && End != null) {
+			try {
+				cfg.write_to_file("C:\\Users\\StuartSiroky\\Documents\\infeasable.txt");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			BFSGraph reducedGraph = cfg.getPaths(Start, End);
+			if (reducedGraph != null) {
+				System.out.println(reducedGraph.toString() + "\n\n");
+				try {
+					reducedGraph.write_to_file("C:\\Users\\StuartSiroky\\Documents\\infeasable_Reduced.txt");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+			} else {
+				System.out.println("WARNING: no reduced graph found\n");
+			}
+		} else {
+			if (Start == null) {
+				System.out.println("WARNING: could not find Start "
+						+ startNodeName + "\n");
+			}
+			if (End == null) {
+				System.out.println("WARNING: could not find Final "
+						+ finalNodeName + "\n");
+			}
+		}
+		System.out.println("=========================");
+		System.out.println("=========================\n");
+
+	
+	}
+
 }

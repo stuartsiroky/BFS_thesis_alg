@@ -5,10 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.bcel.Repository;
-import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ClassGen;
@@ -58,7 +56,7 @@ public class GraphGenerator {
 				System.out.println("ADDED node " + fromNode.toString());
 			}
 			fNode = cfg.getNodeMatching(fNodeName);
-			
+
 			for (InstructionHandle ih : handles) {
 				Instruction insn = ih.getInstruction();
 
@@ -83,9 +81,10 @@ public class GraphGenerator {
 						System.out.println("ADDED node " + toNode.toString());
 					} else {
 						// to = cfg.getNodeMatching(tNodeName);
-						// System.out.println("ALREADY EXISTS NODE " + tNodeName);
+						// System.out.println("ALREADY EXISTS NODE " +
+						// tNodeName);
 					}
-					//cfg.addNode(toNode);
+					// cfg.addNode(toNode);
 					tNode = cfg.getNodeMatching(tNodeName);
 					cfg.addEdge(fNode, tNode);
 				}
@@ -149,30 +148,36 @@ public class GraphGenerator {
 					cfg.addNode(iNode);
 					BFSNode implNode = cfg.getNodeMatching(s_im);
 					// get all the edges from i_used and to i_used
-					//List<BFSEdge> e_from = cfg.adjList.getAdjacent(intfNode);
-					
+					// List<BFSEdge> e_from = cfg.adjList.getAdjacent(intfNode);
+
 					Collection<BFSEdge> e_all = cfg.adjList.getAllEdges();
 					ArrayList<BFSEdge> e_from = new ArrayList<BFSEdge>();
 					ArrayList<BFSEdge> e_to = new ArrayList<BFSEdge>();
 					// create edges that match the list to and from i_used
-					//if (e_from != null) {
-					//	for (BFSEdge e : e_from) {
-					//		BFSNode to = e.getTo();
-					//		
-					//		cfg.addEdge(implNode, to);
-					//	}
-					//}
+					// if (e_from != null) {
+					// for (BFSEdge e : e_from) {
+					// BFSNode to = e.getTo();
+					//
+					// cfg.addEdge(implNode, to);
+					// }
+					// }
 					if (!e_all.isEmpty()) {
 						for (BFSEdge e : e_all) {
+							int e_prob = e.getProb();
 							BFSNode to = e.getTo();
 							BFSNode from = e.getFrom();
+							int to_prob = to.getWeight();
+							int from_prob = from.getWeight();
 							if (to.equals(intfNode)) {
+								intfNode.setWeight(to_prob);
 								e_to.add(e);
-								cfg.addEdge(from, implNode);
+								cfg.addEdgeProb(from, implNode,e_prob);
+								
 							}
-							if(from.equals(intfNode)) {
+							if (from.equals(intfNode)) {
+								intfNode.setWeight(from_prob);
 								e_from.add(e);
-								cfg.addEdge(implNode, to);
+								cfg.addEdgeProb(implNode, to,e_prob);
 							}
 						}
 					}

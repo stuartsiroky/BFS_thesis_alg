@@ -54,6 +54,9 @@ public class BFSGraph {
 		if (!contains(n)) {
 			nodeList.add(n);
 			return true;
+		} else {
+			BFSNode nn = getNodeMatching(n.getNodeName());
+			nn.addWeight();
 		}
 		return false;
 	}
@@ -68,7 +71,9 @@ public class BFSGraph {
 			nodeList.add(n);
 			return n;
 		} else {
-			return getNodeMatching(n.getNodeName());
+			BFSNode nn = getNodeMatching(n.getNodeName());
+			nn.addWeight();
+			return nn;
 		}
 	}
 	
@@ -78,7 +83,9 @@ public class BFSGraph {
 			nodeList.add(n);
 			return n;
 		} else {
-			return (FunctionNode) getNodeMatching(n.getNodeName());
+			FunctionNode fn = (FunctionNode) getNodeMatching(n.getNodeName());
+			fn.addWeight();
+			return fn;
 		}
 	}
 	
@@ -88,12 +95,18 @@ public class BFSGraph {
 			nodeList.add(n);
 			return n;
 		} else {
-			return (ConditionNode) getNodeMatching(n.getNodeName());
+			ConditionNode cn = (ConditionNode) getNodeMatching(n.getNodeName());
+			cn.addWeight();
+			return cn;
 		}
 	}
 	
 	public void addEdge(BFSNode from, BFSNode to) {
 		adjList.addEdge(from, to, 1);
+	}
+
+	public void addEdgeProb(BFSNode from, BFSNode to, int prob) {
+		adjList.addEdgeProb(from, to, 1,prob);
 	}
 
 	public void removeEdge(BFSEdge edge) {

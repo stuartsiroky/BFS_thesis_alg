@@ -5,7 +5,8 @@ public class BFSEdge implements Comparable<BFSEdge> {
 	final BFSNode from;
 	private final BFSNode to;
 	final int weight;
-
+	private int prob = 0;
+	
 	public int getWeight() {
 		return weight;
 	}
@@ -14,6 +15,7 @@ public class BFSEdge implements Comparable<BFSEdge> {
 		from = argFrom;
 		to = argTo;
 		weight = argWeight;
+		prob++;
 	}
 
 	public int compareTo(final BFSEdge argEdge){
@@ -38,6 +40,18 @@ public class BFSEdge implements Comparable<BFSEdge> {
 	
 	public boolean equals(BFSEdge e) {
 		return from.equals(e.getFrom()) && to.equals(e.getTo());
+	}
+
+	public int getProb() {
+		return prob;
+	}
+
+	public void setProb(int prob) {
+		this.prob = prob;
+	}
+	
+	public void addProb() {
+		this.prob++;
 	}
 	
 }

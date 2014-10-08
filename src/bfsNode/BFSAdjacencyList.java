@@ -23,8 +23,24 @@ public class BFSAdjacencyList {
 		if(!list.contains((BFSEdge) e)) {
 			list.add(e);
 		}
+		else {
+			int indx = list.indexOf(e);
+			BFSEdge ee = list.remove(indx);
+			ee.addProb();
+			list.add(ee);	
+		}
 	}
 
+	public void addEdgeProb(BFSNode source, BFSNode target, int weight, int prob) {
+		this.addEdge(source,target,weight);
+		BFSEdge e = new BFSEdge(source,target,weight);
+		List<BFSEdge> list = adjacencies.get(source);
+		int indx = list.indexOf(e);
+		BFSEdge ee = list.remove(indx);
+		ee.setProb(prob);
+		list.add(ee);			
+	}
+	
 	public void remove(BFSEdge edge) {
 		List<BFSEdge> list;
 		BFSNode from = edge.getFrom();
