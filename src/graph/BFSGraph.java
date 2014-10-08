@@ -245,7 +245,7 @@ public class BFSGraph {
 			cnt++;
 			List<BFSEdge> fromList = RL.getAdjacent(n);
 			if (fromList != null) {
-				 System.out.println(" "+fromList.toString());
+				 //System.out.println(" "+fromList.toString());
 				 for (BFSEdge e : fromList) {
 					BFSNode v = (BFSNode) e.getTo();
 					if (v.getColor() == COLOR.WHITE) {
