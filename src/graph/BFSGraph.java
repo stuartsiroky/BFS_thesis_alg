@@ -27,6 +27,17 @@ public class BFSGraph {
 	public BFSGraph() {
 	}
 
+	public String toStringPathCond() {
+		String path;
+		path = "--- Path Contions ---\n";
+		for(BFSNode n: nodeList) {
+			path+=n.toString()+"\n";
+			for(String s: n.getPath_condition()) {
+				path+="\t"+s+"\n";
+			}
+		}
+		return path;
+	}
 	public BFSGraph(ArrayList<BFSNode> nodes, BFSAdjacencyList edges) {
 		nodeList = nodes;
 		for (BFSNode n : nodes) {

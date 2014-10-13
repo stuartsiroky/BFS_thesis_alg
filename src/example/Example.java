@@ -391,7 +391,7 @@ public class Example {
 		GraphGenerator GG = new GraphGenerator();
 		String[] fileList = new String[1];
 		
-		fileList[0] = "codeExamples.InfeasablePath";
+		fileList[0] = "testCase.InfeasablePath";
 
 		for (String f : fileList) {
 			if (f != null) {
@@ -404,8 +404,8 @@ public class Example {
 			}
 		}
 		GG.cleanup_any_pure_interface(cfg);
-		String startNodeName = "codeExamples.InfeasablePath.start(I)V";
-		String finalNodeName = "codeExamples.InfeasablePath.foo_bar()V";
+		String startNodeName = "testCase.InfeasablePath.start(I)V";
+		String finalNodeName = "testCase.InfeasablePath.foo_bar()V";
 		BFSNode Start = cfg.getNodeMatching(startNodeName);
 		BFSNode End   = cfg.getNodeMatching(finalNodeName);
 		System.out.println("STUART BFSGraph\n" + cfg.toString());

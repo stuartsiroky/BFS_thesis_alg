@@ -17,6 +17,7 @@ public class BFSNode extends Node {
 	private ArrayList<BFSNode> next; 
 	public int weight;
 	private boolean condition = false; //FIXME needs to be more general
+	private ArrayList<String> path_condition = new ArrayList<String>();
 	
 	public BFSNode(String name) {
 		super(nodeCnt);
@@ -145,6 +146,21 @@ public class BFSNode extends Node {
 
 	public void addWeight() {
 		this.weight++;
+	}
+
+	public ArrayList<String> getPath_condition() {
+		return path_condition;
+	}
+
+	public void setPath_condition(ArrayList<String> path_condition) {
+		this.path_condition = path_condition;
+	}
+	
+	public void addPath_condition(String path_condition) {
+		String tmp[] = path_condition.split("\\n");
+		if(!this.path_condition.contains(tmp[1])) {
+			this.path_condition.add(tmp[1]);
+		}
 	}
 	
 }
