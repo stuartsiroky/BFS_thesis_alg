@@ -23,7 +23,8 @@ public class BFSGraph {
 	ArrayList<BFSNode> nodeList = new ArrayList<BFSNode>();
 	BFSAdjacencyList adjList = new BFSAdjacencyList();
 	private Queue<BFSNode> workListQ = new LinkedList<BFSNode>();
-
+	int nodevisitcnt;
+	
 	public BFSGraph() {
 	}
 
@@ -38,6 +39,7 @@ public class BFSGraph {
 		}
 		return path;
 	}
+
 	public BFSGraph(ArrayList<BFSNode> nodes, BFSAdjacencyList edges) {
 		nodeList = nodes;
 		for (BFSNode n : nodes) {
@@ -217,7 +219,6 @@ public class BFSGraph {
 		workListQ.clear();
 	}
 
-	int nodevisitcnt;
 
 	public void FromPath(BFSNode startNode, BFSNode finishNode) {
 		// do a BF search and then go backwards on the predecessors of the nodes

@@ -99,5 +99,15 @@ public class Path {
 	public int get_PathLength() {
 		return path.size();
 	}
-
+	
+	public boolean pathContains(String s) {
+		boolean result = false;
+		for(BFSNode n: path) {
+			if(n.getNodeName().equals(s)) {
+				result = true;
+				return result;
+			}
+		}
+		return result;
+	}
 }

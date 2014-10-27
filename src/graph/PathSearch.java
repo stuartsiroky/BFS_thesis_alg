@@ -199,7 +199,36 @@ public class PathSearch {
 	 *************************************************************************/
 
 	private boolean pathFeasible(BFSNode n, Path p) {
+		// path is built backwards you need to apply constraints in that order
+		String s1 = "calc.view.CalculatorView.equals(Lcalc/view/CalculatorView;)V";
+		String s2 = "calc.noSwing.JButton.pushed()V";
+		String s3 = "calc.view.CalculatorView$Handler.actionPerformed(Lcalc/noSwing/ActionEvent;)V";
+		String s4 = "calc.controller.CalculatorController.operation(Ljava/lang/String;)V";
+		String s5 = "calc.model.CalculatorModel.notifyChanged(Lcalc/model/ModelEvent;)V";
+		String s6 = "calc.view.CalculatorView.modelChanged(Lcalc/model/ModelEvent;)V";
+		
 		boolean result = true;
+		String name = n.getNodeName();
+		if(name.equals(s5)) {
+			result = p.pathContains(s6);
+		}
+		if(name.equals(s4)){
+			result = p.pathContains(s5) & p.pathContains(s6);
+		}
+		if(name.equals(s3)) {
+			result = p.pathContains(s4) & p.pathContains(s5) & p.pathContains(s6);	
+		}
+		if(name.equals(s2)) {
+			result = p.pathContains(s3) & p.pathContains(s4) & p.pathContains(s5) & p.pathContains(s6);
+		}
+		if(name.equals(s1)) {
+			result = p.pathContains(s2) & p.pathContains(s3) & p.pathContains(s4) & p.pathContains(s5) & p.pathContains(s6);
+		}
+		if(result == false) {
+			System.out.println("======= INFEASIBLE PATH ===========");//TODO BETTER MESSAGE
+			System.out.println("\t "+name+" -> "+p.toString());
+			System.out.println("======= INFEASIBLE PATH ===========");
+		}
 		// FIXME ArrayList<BFSNode> pp = p.getPath();
 		// FIXME for (BFSNode nn : pp) {
 		// FIXME result &= nn.condition();
@@ -291,6 +320,9 @@ public class PathSearch {
 							// System.out.println("manageTargets-updatePaths"+v.toString()+n.toString()+" path "+p.toString());
 							updatePaths(v, n, p);
 						}
+						else {
+							System.out.println("Infeasible Path found ");
+						}
 					}
 				}
 			}
@@ -377,11 +409,3 @@ public class PathSearch {
 	}
 }
 
-// ///////////////////////////////////////////////////////
-// ///////////////////////////////////////////////////////
-// ///////////////////////////////////////////////////////
-// // Directed symbolic execution algorithm take 2 ////
-// ///////////////////////////////////////////////////////
-// ///////////////////////////////////////////////////////
-// ///////////////////////////////////////////////////////
-// use the fpathMap instead of the pathMap //
