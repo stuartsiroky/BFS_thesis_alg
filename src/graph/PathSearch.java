@@ -225,9 +225,9 @@ public class PathSearch {
 			result = p.pathContains(s2) & p.pathContains(s3) & p.pathContains(s4) & p.pathContains(s5) & p.pathContains(s6);
 		}
 		if(result == false) {
-			System.out.println("======= INFEASIBLE PATH ===========");//TODO BETTER MESSAGE
+			System.out.println("======= FAILED CONSTRAINT PATH ===========");//TODO BETTER MESSAGE
 			System.out.println("\t "+name+" -> "+p.toString());
-			System.out.println("======= INFEASIBLE PATH ===========");
+			System.out.println("======= FAILED CONSTRAINT PATH ===========");
 		}
 		// FIXME ArrayList<BFSNode> pp = p.getPath();
 		// FIXME for (BFSNode nn : pp) {
