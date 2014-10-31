@@ -24,6 +24,9 @@ public class BFSGraph {
 	BFSAdjacencyList adjList = new BFSAdjacencyList();
 	private Queue<BFSNode> workListQ = new LinkedList<BFSNode>();
 	int nodevisitcnt;
+	int numNodesStarting;
+	int numNodesRev;
+	int numNodesReduced;
 	
 	public BFSGraph() {
 	}
@@ -248,6 +251,7 @@ public class BFSGraph {
 		Queue<BFSNode> q = new LinkedList<BFSNode>();
 		System.out.println("Number of node in starting graph "
 				+ nodeList.size());
+		numNodesStarting = nodeList.size();
 		int cnt = 0;
 		initSearch(finalNode);
 		q.add(finalNode);
@@ -274,7 +278,7 @@ public class BFSGraph {
 			n.setColor(COLOR.BLACK);
 		} // !q.isEmpty
 		System.out.println("BFSeachRev nodes visited = " + cnt);
-		
+		numNodesRev = cnt;	
 	}
 
 	public ArrayList<BFSNode> BFSearchStart(BFSNode startNode) {
@@ -308,6 +312,7 @@ public class BFSGraph {
 			n.setColor(COLOR.BLACK);
 		} // !q.isEmpty
 		System.out.println("BFSearchStart nodes visited = " + cnt);
+		numNodesReduced = cnt;
 		return trace;
 	}
 
@@ -332,7 +337,14 @@ public class BFSGraph {
 		BFSearchRev(finalNode);
 System.out.println("==Reduced Graph \n"+toString());
 		if (pathRevExists(finalNode, startNode)) {
-			return new BFSGraph(BFSearchStart(startNode), adjList);
+			BFSGraph b = new BFSGraph(BFSearchStart(startNode), adjList);
+			System.out.println("==================");
+			System.out.println("\tInital num Nodes  :"+numNodesStarting);
+			System.out.println("\tReverse num Nodes :"+numNodesRev);
+			System.out.println("\tFinal  num Nodes  :"+numNodesReduced);
+			System.out.println("==================");
+			return b;
+			//return new BFSGraph(BFSearchStart(startNode), adjList);
 		} else {
 			System.out.println("FAILURE: failed to find path from "
 					+ startNode.toString() + " to " + finalNode.toString());

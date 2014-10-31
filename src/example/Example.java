@@ -41,6 +41,11 @@ public class Example {
 		System.out.println("====== graphTest7 =========");
 		System.out.println("===========================");
 		//graphTest7();
+		System.out.println("===========================");
+		System.out.println("====== graphTest8 =========");
+		System.out.println("===========================");
+		//graphTest8();
+
 	}
 
 	private static void graphTest1() {
@@ -463,5 +468,105 @@ long graphPathTime;
 
 	
 	}
+
+	private static void graphTest8() {
+		BFSGraph cfg = new BFSGraph();
+		GraphGenerator GG = new GraphGenerator();
+		String[] fileList = new String[17];
+long graphGenTime;
+long graphReduceTime;
+long graphPathTime;
+		
+		fileList[0] = "calc.controller.AbstractController";
+		fileList[1] = "calc.controller.CalculatorController";
+		fileList[2] = "calc.model.AbstractModel";
+		fileList[3] = "calc.model.CalculatorModel";
+		fileList[4] = "calc.model.ModelEvent";
+		fileList[5] = "calc.noSwing.ActionEvent";
+		fileList[6] = "calc.noSwing.BorderLayout";
+		fileList[7] = "calc.noSwing.Container";
+		fileList[8] = "calc.noSwing.GridLayout";
+		fileList[9] = "calc.noSwing.JButton";
+		fileList[10] = "calc.noSwing.JPanel";
+		fileList[11] = "calc.noSwing.JTextField";
+		fileList[12] = "calc.noSwing.MyJFrame";
+		fileList[13] = "calc.view.CalculatorView";
+		fileList[14] = "calc.view.GridLayout";
+		fileList[15] = "calc.view.JFrameView";
+		fileList[16] = "calc.view.CalculatorView$Handler";
+		startTime = System.currentTimeMillis();		
+		origStartTime = startTime;
+		for (String f : fileList) {
+			if (f != null) {
+				try {
+					//System.out.println("STUART opening "+f);
+					GG.createCFG(cfg, f);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		GG.cleanup_any_pure_interface(cfg);
+		stopTime = System.currentTimeMillis();
+		graphGenTime = stopTime - startTime;
+		String startNodeName = "calc.view.CalculatorView.equals(Lcalc/view/CalculatorView;)V";
+		String finalNodeName = "calc.view.CalculatorView.modelChanged(Lcalc/model/ModelEvent;)V";
+		//String finalNodeName = "calc.model.CalculatorModel.equals()V";
+		BFSNode Start = cfg.getNodeMatching(startNodeName);
+		BFSNode End   = cfg.getNodeMatching(finalNodeName);
+		System.out.println("STUART BFSGraph\n" + cfg.toString());
+		System.out.println("GM Looking For StartNode = " + startNodeName);
+		System.out.println("GM Looking For EndNode   = " + finalNodeName);
+		if (Start != null && End != null) {
+			try {
+				cfg.write_to_file("C:\\Users\\StuartSiroky\\Documents\\calcNoSwingExtra.txt");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			startTime = System.currentTimeMillis();
+			BFSGraph reducedGraph = cfg.getPaths(Start, End);
+			stopTime = System.currentTimeMillis();
+			graphReduceTime = stopTime - startTime;
+			if (reducedGraph != null) {
+				System.out.println(reducedGraph.toString() + "\n\n");
+				startTime = System.currentTimeMillis();
+				PathSearch ps = new PathSearch(reducedGraph);
+				ps.DSE(End, Start);
+				stopTime = System.currentTimeMillis();
+				graphPathTime = stopTime - startTime;
+				long totalTime = stopTime - origStartTime;
+				
+				System.out.println("Graph generation Time: "+graphGenTime);
+				System.out.println("Graph reduction Time : "+graphReduceTime);				
+				System.out.println("Graph Path Time      : "+graphPathTime);
+				System.out.println("Total Time           : "+totalTime);
+				
+				ps.createF2FPath();
+				ps.printF2FPath();
+				try {
+					reducedGraph.write_to_file("C:\\Users\\StuartSiroky\\Documents\\calcNoSwingExtra_Reduced.txt");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+			} else {
+				System.out.println("WARNING: no reduced graph found\n");
+			}
+		} else {
+			if (Start == null) {
+				System.out.println("WARNING: could not find Start "
+						+ startNodeName + "\n");
+			}
+			if (End == null) {
+				System.out.println("WARNING: could not find Final "
+						+ finalNodeName + "\n");
+			}
+		}
+		System.out.println("=========================");
+		System.out.println("=========================\n");
+
+	
+	}
+	
 
 }
