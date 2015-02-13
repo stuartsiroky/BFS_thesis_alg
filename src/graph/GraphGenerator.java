@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.bcel.Repository;
+import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ClassGen;
@@ -33,6 +34,7 @@ public class GraphGenerator {
 	// fix up the graph if any unimplemented interfaces are in the graph
 	// the key is the interface and a list of what implements that interface
 	private Map<String, List<String>> implemented_interfaces = new HashMap<String, List<String>>();
+	private Field fs[];
 
 	public void createCFG(BFSGraph cfg, String className)
 			throws ClassNotFoundException {
@@ -42,6 +44,10 @@ public class GraphGenerator {
 		ClassGen cg = new ClassGen(jc);
 		// ConstantPool cp = jc.getConstantPool();
 		ConstantPoolGen cpg = cg.getConstantPool();
+		fs = cg.getFields();
+		//for(Field f: fs){
+		//	System.out.println(f.toString());
+		//}
 		for (Method m : cg.getMethods()) {
 			MethodGen mg = new MethodGen(m, cg.getClassName(), cpg);
 			// System.out.println("+++++++++++++++++++++++++++++++++++++");//STUART
@@ -63,10 +69,10 @@ public class GraphGenerator {
 				if (insn instanceof InvokeInstruction) {
 					InvokeInstruction ii = (InvokeInstruction) insn;
 					ReferenceType rt = ii.getReferenceType(cpg);
-					String cname = rt.toString();
-					String methname = ii.getMethodName(cpg);
-					String signame = ii.getSignature(cpg);
-					String tNodeName = cname + "." + methname + signame;
+					String cName = rt.toString();
+					String methodName = ii.getMethodName(cpg);
+					String signatureName = ii.getSignature(cpg);
+					String tNodeName = cName + "." + methodName + signatureName;
 					// System.out.println("    " + cname + "." + methname
 					// + signame);// STUART
 					if (ii instanceof INVOKEINTERFACE) {
@@ -84,6 +90,7 @@ public class GraphGenerator {
 						// System.out.println("ALREADY EXISTS NODE " +
 						// tNodeName);
 					}
+					//System.out.println("STUART method "+tNodeName+" depends on "+fNodeName);
 					// cfg.addNode(toNode);
 					tNode = cfg.getNodeMatching(tNodeName);
 					cfg.addEdge(fNode, tNode);

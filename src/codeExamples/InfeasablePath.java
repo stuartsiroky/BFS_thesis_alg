@@ -3,6 +3,9 @@ package codeExamples;
 //import gov.nasa.jpf.vm.Verify;
 
 public class InfeasablePath {
+	int myTime;
+	int tmp;
+	
 	public static void main(String[] a) {
 //		int i = Verify.getInt(-2,5);
 	
@@ -12,6 +15,7 @@ public class InfeasablePath {
 	}
 	
 	public void start(int i) {
+		myTime = i;
 		if(i>1){
 			foo(i);
 		}

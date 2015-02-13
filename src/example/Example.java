@@ -36,7 +36,7 @@ public class Example {
 		System.out.println("===========================");
 		System.out.println("====== graphTest6 =========");
 		System.out.println("===========================");
-		graphTest6();
+		//graphTest6();
 		System.out.println("===========================");
 		System.out.println("====== graphTest7 =========");
 		System.out.println("===========================");
@@ -428,41 +428,42 @@ long graphPathTime;
 			}
 		}
 		GG.cleanup_any_pure_interface(cfg);
-		String startNodeName = "testCase.InfeasablePath.start(I)V";
-		String finalNodeName = "testCase.InfeasablePath.foo_bar()V";
-		BFSNode Start = cfg.getNodeMatching(startNodeName);
-		BFSNode End   = cfg.getNodeMatching(finalNodeName);
-		System.out.println("STUART BFSGraph\n" + cfg.toString());
-		System.out.println("GM Looking For StartNode = " + startNodeName);
-		System.out.println("GM Looking For EndNode   = " + finalNodeName);
-		if (Start != null && End != null) {
-			try {
-				cfg.write_to_file("C:\\Users\\StuartSiroky\\Documents\\infeasable.txt");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			BFSGraph reducedGraph = cfg.getPaths(Start, End);
-			if (reducedGraph != null) {
-				System.out.println(reducedGraph.toString() + "\n\n");
-				try {
-					reducedGraph.write_to_file("C:\\Users\\StuartSiroky\\Documents\\infeasable_Reduced.txt");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-
-			} else {
-				System.out.println("WARNING: no reduced graph found\n");
-			}
-		} else {
-			if (Start == null) {
-				System.out.println("WARNING: could not find Start "
-						+ startNodeName + "\n");
-			}
-			if (End == null) {
-				System.out.println("WARNING: could not find Final "
-						+ finalNodeName + "\n");
-			}
-		}
+		
+//		String startNodeName = "testCase.InfeasablePath.start(I)V";
+//		String finalNodeName = "testCase.InfeasablePath.foo_bar()V";
+//		BFSNode Start = cfg.getNodeMatching(startNodeName);
+//		BFSNode End   = cfg.getNodeMatching(finalNodeName);
+//		System.out.println("STUART BFSGraph\n" + cfg.toString());
+//		System.out.println("GM Looking For StartNode = " + startNodeName);
+//		System.out.println("GM Looking For EndNode   = " + finalNodeName);
+//		if (Start != null && End != null) {
+//			try {
+//				cfg.write_to_file("C:\\Users\\StuartSiroky\\Documents\\infeasable.txt");
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//			BFSGraph reducedGraph = cfg.getPaths(Start, End);
+//			if (reducedGraph != null) {
+//				System.out.println(reducedGraph.toString() + "\n\n");
+//				try {
+//					reducedGraph.write_to_file("C:\\Users\\StuartSiroky\\Documents\\infeasable_Reduced.txt");
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
+//
+//			} else {
+//				System.out.println("WARNING: no reduced graph found\n");
+//			}
+//		} else {
+//			if (Start == null) {
+//				System.out.println("WARNING: could not find Start "
+//						+ startNodeName + "\n");
+//			}
+//			if (End == null) {
+//				System.out.println("WARNING: could not find Final "
+//						+ finalNodeName + "\n");
+//			}
+//		}
 		System.out.println("=========================");
 		System.out.println("=========================\n");
 
